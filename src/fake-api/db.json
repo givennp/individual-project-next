@@ -1,0 +1,98 @@
+{
+  "posts": [
+    {
+      "userId": 1,
+      "location": "BSD",
+      "image_url": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      "number_of_likes": 213424,
+      "caption": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+      "id": 1
+    },
+    {
+      "userId": 1,
+      "location": "Jakarta",
+      "image_url": "https://images.unsplash.com/photo-1644982648600-4583461837f8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1724&q=80",
+      "number_of_likes": 53451,
+      "caption": "Lorem ipsum dolor sit amet",
+      "id": 2
+    },
+    {
+      "userId": 1,
+      "location": "Bandung",
+      "image_url": "https://images.unsplash.com/photo-1646194840487-e8d3586533a5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1626&q=80",
+      "number_of_likes": 123534,
+      "caption": "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
+      "id": 3
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "userId": 3,
+      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+      "postId": 1
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+      "postId": 1
+    },
+    {
+      "userId": 1,
+      "content": "test",
+      "postId": 1,
+      "id": 3
+    },
+    {
+      "userId": 4,
+      "content": "test",
+      "postId": 2,
+      "id": 4
+    }
+    
+  ],
+
+  "users":[
+    {
+      "id": 1,
+      "username": "mamang",
+      "email" : "sadouwab@gmail.com",
+      "bio" : "lorem ipul",
+      "avatar" : "https://miro.medium.com/max/1000/1*tv9pIQPhwumDnYBfCoapYg.jpeg",
+      "password" : "123123"
+    },
+    {
+      "id": 2,
+      "username": "budi",
+      "email": "asdoin@gmail.com",
+      "bio": "sakdmakmd",
+      "avatar": "https://miro.medium.com/max/1000/1*tv9pIQPhwumDnYBfCoapYg.jpeg",
+      "password": "123123"
+    },
+    {
+      "id": 3,
+      "username": "siamang",
+      "email": "ain@gmail.com",
+      "bio": "sakdmakmd",
+      "avatar": "https://miro.medium.com/max/1000/1*tv9pIQPhwumDnYBfCoapYg.jpeg",
+      "password": "123123"
+    },
+    {
+      "id": 4,
+      "username": "yamet",
+      "email": "in@gmail.com",
+      "bio": "sakkmd",
+      "avatar": "https://miro.medium.com/max/1000/1*tv9pIQPhwumDnYBfCoapYg.jpeg",
+      "password": "123123"
+    },
+    {
+      "id": 5,
+      "username": "kunyit",
+      "bio": "saya suka bawang",
+      "email": "asd@gmail.com",
+      "avatar": "https://miro.medium.com/max/1000/1*tv9pIQPhwumDnYBfCoapYg.jpeg",
+      "password": "123123"
+    }
+  ]
+}
