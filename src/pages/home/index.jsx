@@ -28,6 +28,8 @@ const HomePage = () => {
           location={val.location}
           numberOfLikes={val.number_of_likes}
           id={val.id}
+          profile_picture={val.user.avatar}
+          userId={val.userId}
         />
       );
     });
@@ -35,7 +37,6 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchContentList()
-
   } , [])
 
   return (

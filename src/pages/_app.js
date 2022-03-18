@@ -4,10 +4,11 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import rootReducer from "../redux/store";
 import HomePage from "../pages/home";
-import ProfilePage from "../pages/profile";
+import MyProfilePage from "../pages/Myprofile";
 import LoginPage from "../pages/login";
 import Navbar from "../components/Navbar";
 import "./_apps.css";
+import AuthProvider from "../components/AuthProvider";
 
 const store = createStore(rootReducer);
 
@@ -16,14 +17,16 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <ChakraProvider>
-        <Navbar/>
-        <Center>
-          <Box paddingX="16">
-            <Component {...pageProps} />
-          </Box>
-        </Center>
-      </ChakraProvider>
+      <AuthProvider>
+        <ChakraProvider>
+          <Navbar />
+          <Center>
+            <Box paddingX="16">
+              <Component {...pageProps} />
+            </Box>
+          </Center>
+        </ChakraProvider>
+      </AuthProvider>
     </Provider>
   );
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Image,
@@ -19,6 +19,8 @@ import {
 import Comment from "../Comment";
 import axios from "axios";
 import { API_URL } from "../../configs/api";
+import { useSelector } from "react-redux";
+import Link from "next/link";
 
 const ContentCard = ({
   username,
@@ -27,18 +29,23 @@ const ContentCard = ({
   numberOfLikes,
   imageUrl,
   id,
+  profile_picture,
+  userId,
 }) => {
   // const { username, location, caption, numberOfLikes, imageUrl } = props;
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
+  const [toggleComment, setToggleComment] = useState(false)
 
   const [displayCommentInput, setDisplayCommentInput] = useState(false);
+
+  const userSelector = useSelector((state) => state.auth);
 
   const fetchComments = () => {
     axios
       .get(`${API_URL}/comments`, {
         params: {
-          postId : id,
+          postId: id,
           _expand: "user",
         },
       })
@@ -72,9 +79,12 @@ const ContentCard = ({
     });
   };
 
+  useEffect(()=> {
+    renderComments()
+  })
+
   return (
     <Box>
-      
       <Box
         borderWidth="1px 0px 0px 0px"
         borderColor="grey"
@@ -91,11 +101,18 @@ const ContentCard = ({
           display="flex"
           alignItems="center"
         >
-          <Image
-            borderRadius="5px"
-            src="https://bit.ly/dan-abramov"
-            boxSize="40px"
-          />
+          <Link href={`/profile/${userId}`}>
+            <Image
+              borderRadius="5px"
+              src={profile_picture}
+              boxSize="40px"
+              sx={{
+                _hover: {
+                  cursor: "pointer",
+                },
+              }}
+            />
+          </Link>
           <Box marginLeft="2">
             <Text fontSize="md" fontWeight="bold" color="white">
               {username}
@@ -117,7 +134,7 @@ const ContentCard = ({
         </Box>
 
         {/* Card Media/Content */}
-        <Image src={imageUrl} />
+        <Image minW="100%" src={imageUrl} />
 
         {/* Action Buttons */}
         <Box
@@ -135,11 +152,16 @@ const ContentCard = ({
             display="flex"
             justifyContent="center"
             borderRadius="4px"
+            sx={{
+              _hover: {
+                cursor: "pointer",
+              },
+            }}
           >
             <Center>
               <Icon color="white" boxSize={6} as={FaArrowUp} />
               <Text color="white" marginLeft="8px">
-                {numberOfLikes.toLocaleString()}
+                {numberOfLikes?.toLocaleString()}
               </Text>
             </Center>
           </Box>
@@ -152,6 +174,11 @@ const ContentCard = ({
             display="flex"
             justifyContent="center"
             borderRadius="4px"
+            sx={{
+              _hover: {
+                cursor: "pointer",
+              },
+            }}
           >
             <Center>
               <Icon color="white" boxSize={6} as={FaArrowDown} />
@@ -168,18 +195,18 @@ const ContentCard = ({
             marginLeft="2"
             borderRadius="4px"
             justifyContent="space-between"
+            sx={{
+              _hover: {
+                cursor: "pointer",
+              },
+            }}
           >
             <Center>
               <Icon
-                onClick={() => setDisplayCommentInput(true)}
+                onClick={() => setDisplayCommentInput(!displayCommentInput)}
                 boxSize={5}
                 as={FaCommentAlt}
                 color="white"
-                sx={{
-                  _hover: {
-                    cursor: "pointer",
-                  },
-                }}
               />
               <Text color="white" marginLeft="8px">
                 34
@@ -190,19 +217,6 @@ const ContentCard = ({
 
         {/* Comment Section */}
         <Box paddingX="3" marginTop="4">
-          <Text
-            fontWeight="bold"
-            decoration="underline"
-            color="white"
-            marginBottom="2"
-            onClick={fetchComments}
-            _hover={{
-              cursor: "pointer"
-            }}
-          >
-            Comments
-          </Text>
-
           {/* Comment Input */}
           {displayCommentInput ? (
             <Box display="flex">
@@ -223,8 +237,20 @@ const ContentCard = ({
               </Button>
             </Box>
           ) : null}
-
-          {renderComments()}
+          <Box
+            fontWeight="bold"
+            decoration="underline"
+            color="white"
+            padding="2"
+            onClick={() => setToggleComment(!toggleComment)}
+            _hover={{
+              cursor: "pointer",
+            }}
+            width="fit-content"
+          >
+            <Text textDecoration="underline">Comments</Text>
+          </Box>
+          <Box>{toggleComment ? renderComments() : null}</Box>
         </Box>
       </Box>
     </Box>

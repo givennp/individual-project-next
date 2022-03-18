@@ -19,19 +19,34 @@ import { BsPlusLg } from "react-icons/bs";
 import Link from "next/link"
 import { useSelector, useDispatch } from "react-redux";
 import user_types from "../../redux/reducers/types/user";
+import { useRouter } from "next/dist/client/router";
+import Cookies from "js-cookie";
+
 
 const Navbar = () => {
   const userSelector = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
+  const router = useRouter()
+
   const logoutButtonHandler = () => {
     dispatch({
       type: user_types.LOGOUT_USER,
     });
 
-    localStorage.removeItem("user_data");
+    Cookies.remove("user_data");
   };
+
+  const uploadButton = () => {
+    if(userSelector.id){
+      router.push("/upload")
+
+    } else if(!userSelector.id){
+      router.push("/login")
+    }
+    
+  }
 
   return (
     <Box
@@ -47,13 +62,18 @@ const Navbar = () => {
       <Box display="flex" fontSize="24px" fontWeight="medium" width="50%">
         <Center>
           <Link
-            href="/"
+            href="/home"
             style={{
               display: "flex",
               alignItems: "center",
             }}
           >
-            <Box>
+            <Box
+              _hover={{
+                color: "#a6a6a6",
+                cursor: "pointer",
+              }}
+            >
               <Icon
                 margin="15px"
                 as={GiCorn}
@@ -66,9 +86,33 @@ const Navbar = () => {
               />
             </Box>
           </Link>
-          <Text padding="15px">Shuffle</Text>
-          <Text padding="15px">Donate</Text>
-          <Text padding="15px">Trending</Text>
+          <Text
+            padding="15px"
+            _hover={{
+              color: "#a6a6a6",
+              cursor: "pointer",
+            }}
+          >
+            Shuffle
+          </Text>
+          <Text
+            padding="15px"
+            _hover={{
+              color: "#a6a6a6",
+              cursor: "pointer",
+            }}
+          >
+            Donate
+          </Text>
+          <Text
+            padding="15px"
+            _hover={{
+              color: "#a6a6a6",
+              cursor: "pointer",
+            }}
+          >
+            Trending
+          </Text>
         </Center>
       </Box>
       <Box display="flex" flexDirection="row">
@@ -90,11 +134,10 @@ const Navbar = () => {
               <MenuList color="black">
                 {userSelector.id ? (
                   <>
-                    <Link href="/profile">
+                    <Link href="/myProfile">
                       <MenuItem>Profile</MenuItem>
                     </Link>
                     <MenuItem onClick={logoutButtonHandler}>Logout</MenuItem>
-                    
                   </>
                 ) : (
                   <>
@@ -119,6 +162,7 @@ const Navbar = () => {
             fontSize="20px"
             fontWeight="bold"
             height="70%"
+            onClick={() => uploadButton()}
           >
             <Icon marginRight="15px" backgroundColor="inherit" as={BsPlusLg} />
             Upload

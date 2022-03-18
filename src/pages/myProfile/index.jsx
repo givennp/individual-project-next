@@ -10,7 +10,7 @@ import RenderBio from "../../components/pages/Bio";
 // 2. Beri nama state untuk setiap tab
 // 3. If (nama state = nama tab) render component
 
-const ProfilePage = () => {
+const MyProfilePage = () => {
   
   const userSelector = useSelector((state) => state.auth)  
   const [menuTab, setMenuTab] = useState("bio")
@@ -128,4 +128,4 @@ const ProfilePage = () => {
     );
 }
 
-export default ProfilePage;
+export default MyProfilePage;
