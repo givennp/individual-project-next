@@ -57,6 +57,18 @@
       "content": "test",
       "postId": 2,
       "id": 4
+    },
+    {
+      "userId": 1,
+      "content": "kontol",
+      "postId": 1,
+      "id": 5
+    },
+    {
+      "userId": 1,
+      "content": "gila loe",
+      "postId": 1,
+      "id": 6
     }
   ],
   "users": [

@@ -14,7 +14,7 @@ const MyPost = () => {
                 userId : userSelector.id
             }
         })
-        .then((res) => {
+         .then((res) => {
             setUserPost(res.data)
         }).catch((err) => {
             console.log(err);

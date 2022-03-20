@@ -66,7 +66,7 @@ const ProfilePage = () => {
 
   const renderTabContent = () => {
     if (menuTab === "bio") {
-      return <Text margin="10px 5px" fontSize="24px">
+      return <Text margin="10px 5 px" fontSize="24px">
         {userData.bio}
         </Text>;
     }
@@ -76,6 +76,7 @@ const ProfilePage = () => {
     }
   };
 
+  
   useEffect(() => {
     fetchUserData();
     fetchUserPost();

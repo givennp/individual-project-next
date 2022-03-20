@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import MyPost from "../../components/pages/Posts";
 import RenderBio from "../../components/pages/Bio";
+import MyComments from "../../components/pages/Comments";
 
 // 1. Bikin component untuk setiap tab
 // 2. Beri nama state untuk setiap tab
@@ -29,6 +30,8 @@ const MyProfilePage = () => {
       return <RenderBio />;
     } else if (menuTab === "posts") {
       return <MyPost/>
+    } else if (menuTab === "comments"){
+      return <MyComments/>
     }
   }
 
@@ -88,6 +91,7 @@ const MyProfilePage = () => {
                 color: "white",
                 cursor: "pointer",
               }}
+              onClick={() => setMenuTab("comments")}
             >
               Comments
             </Text>

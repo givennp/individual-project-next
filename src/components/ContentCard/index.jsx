@@ -18,7 +18,7 @@ import {
 } from "react-icons/fa";
 import Comment from "../Comment";
 import axios from "axios";
-import { API_URL } from "../../configs/api";
+import { axiosInstance } from "../../configs/api";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import requiresAuth from "../requiresAuth";
@@ -42,22 +42,25 @@ const ContentCard = ({
 
   const userSelector = useSelector((state) => state.auth);
 
-  const fetchComments = () => {
-    axios
-      .get(`${API_URL}/comments`, {
+  const fetchComments = async () => {
+    await axiosInstance
+      .get("/comments", {
         params: {
           postId: id,
-          _expand: "user",
+          _expand: "user"
         },
       })
       .then((res) => {
         setComments(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
   const renderComments = () => {
     return comments.map((val) => {
-      return <Comment content={val.content} username={val.user.username} />;
+      return <Comment content={val?.content} username={val?.user?.username} />;
     });
   };
 
@@ -69,15 +72,16 @@ const ContentCard = ({
 
   const postNewComment = () => {
     const newData = {
-      username: "doraemon",
+      userId: userSelector.id,
       content: commentInput,
       postId: id,
     };
 
-    axios.post(`${API_URL}/comments`, newData).then(() => {
-      fetchComments();
-      setDisplayCommentInput(false);
-    });
+    axiosInstance.post("/comments", newData).then(()=> {
+      fetchComments()
+
+      setDisplayCommentInput(false)
+    })
   };
 
   useEffect(() => {
