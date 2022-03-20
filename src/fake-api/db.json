@@ -99,6 +99,104 @@
       "email": "asd@gmail.com",
       "avatar": "https://miro.medium.com/max/1000/1*tv9pIQPhwumDnYBfCoapYg.jpeg",
       "password": "123123"
+    },
+    {
+      "email": "harto@mail.com",
+      "username": "bapakHarto",
+      "avatar": "ntar",
+      "password": "123123123",
+      "id": 6
+    },
+    {
+      "email": "Amin@mail.com",
+      "username": "bapakAmin",
+      "avatar": "ntar",
+      "password": "123123123",
+      "id": 7
+    },
+    {
+      "email": "bowo@mail.com",
+      "username": "bapakPrabowo",
+      "avatar": "asdooasd",
+      "password": "123123123",
+      "id": 8
+    },
+    {
+      "email": "asda@gasjn.com",
+      "username": "asdasasd",
+      "avatar": "asda",
+      "password": "123123123",
+      "id": 9
+    },
+    {
+      "email": "asodnoi@aga.com",
+      "username": "bapakJokowi",
+      "avatar": "saudjni",
+      "password": "1231233123",
+      "id": 10
+    },
+    {
+      "email": "asdjyh@gmaik.com",
+      "username": "asdasasdas",
+      "avatar": "aosubo",
+      "password": "123123132",
+      "id": 11
+    },
+    {
+      "email": "asdjnaks@gfmoak.com",
+      "username": "anjayayayay",
+      "avatar": "asodub",
+      "password": "123123123",
+      "id": 12
+    },
+    {
+      "email": "sdiausbd@gmasi.com",
+      "username": "oksdoasindo",
+      "avatar": "aosudbo",
+      "password": "123123123",
+      "id": 13
+    },
+    {
+      "email": "asichbi@gafo.com",
+      "username": "sadouaodubi",
+      "avatar": "dasodub",
+      "password": "123123123",
+      "id": 14
+    },
+    {
+      "email": "asidubi@ggasdofi.com",
+      "username": "asodiasoid",
+      "avatar": "asdyhbiy",
+      "password": "123123123",
+      "id": 15
+    },
+    {
+      "email": "aoisufbiauwbe@FOASN.COM",
+      "username": "seodifnseouin",
+      "avatar": "SDIUB",
+      "password": "123123123",
+      "id": 16
+    },
+    {
+      "email": "asdi@gmail.com",
+      "username": "asdukbasidu",
+      "avatar": "asdiubaisu",
+      "password": "123123123",
+      "id": 17
+    },
+    {
+      "email": "dzojzjbno@gmail.com",
+      "username": "asdolasndo",
+      "avatar": "aisudbi",
+      "password": "123123123",
+      "id": 18
+    },
+    {
+      "email": "asofuioui@gmail.com",
+      "username": "asdoinoi",
+      "avatar": "asodfuboaui",
+      "password": "123123123",
+      "id": 19
     }
   ]
 }

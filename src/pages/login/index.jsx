@@ -7,6 +7,7 @@ import { axiosInstance } from "../../configs/api";
 import user_types from "../../redux/reducers/types/user";
 import { useRouter } from "next/dist/client/router";
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 const LoginPage = () => {
   const [usernameInput, setUsernameInput] = useState("");
@@ -89,17 +90,19 @@ const LoginPage = () => {
         </Center>
       </Box>
       <Box display="flex" flexDirection="column">
-        <Text
-          width="fit-content"
-          marginBottom="8px"
-          color="#5c5c5c"
-          _hover={{
-            color: "white",
-            cursor: "pointer",
-          }}
-        >
-          Didn't have an account?
-        </Text>
+        <Link href="/register">
+          <Text
+            width="fit-content"
+            marginBottom="8px"
+            color="#5c5c5c"
+            _hover={{
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
+            Didn't have an account?
+          </Text>
+        </Link>
         <Button colorScheme="green" onClick={loginButtonHandler}>
           Login
         </Button>

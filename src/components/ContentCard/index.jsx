@@ -21,6 +21,7 @@ import axios from "axios";
 import { API_URL } from "../../configs/api";
 import { useSelector } from "react-redux";
 import Link from "next/link";
+import requiresAuth from "../requiresAuth";
 
 const ContentCard = ({
   username,
@@ -35,7 +36,7 @@ const ContentCard = ({
   // const { username, location, caption, numberOfLikes, imageUrl } = props;
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
-  const [toggleComment, setToggleComment] = useState(false)
+  const [toggleComment, setToggleComment] = useState(false);
 
   const [displayCommentInput, setDisplayCommentInput] = useState(false);
 
@@ -79,9 +80,9 @@ const ContentCard = ({
     });
   };
 
-  useEffect(()=> {
-    renderComments()
-  })
+  useEffect(() => {
+    fetchComments();
+  },[]);
 
   return (
     <Box>
@@ -195,6 +196,7 @@ const ContentCard = ({
             marginLeft="2"
             borderRadius="4px"
             justifyContent="space-between"
+            onClick={() => setDisplayCommentInput(!displayCommentInput)}
             sx={{
               _hover: {
                 cursor: "pointer",
@@ -202,12 +204,7 @@ const ContentCard = ({
             }}
           >
             <Center>
-              <Icon
-                onClick={() => setDisplayCommentInput(!displayCommentInput)}
-                boxSize={5}
-                as={FaCommentAlt}
-                color="white"
-              />
+              <Icon boxSize={5} as={FaCommentAlt} color="white" />
               <Text color="white" marginLeft="8px">
                 34
               </Text>
@@ -242,13 +239,17 @@ const ContentCard = ({
             decoration="underline"
             color="white"
             padding="2"
-            onClick={() => setToggleComment(!toggleComment)}
             _hover={{
               cursor: "pointer",
             }}
             width="fit-content"
           >
-            <Text textDecoration="underline">Comments</Text>
+            <Text
+              onClick={() => setToggleComment(!toggleComment)}
+              textDecoration="underline"
+            >
+              Comments
+            </Text>
           </Box>
           <Box>{toggleComment ? renderComments() : null}</Box>
         </Box>
@@ -256,5 +257,7 @@ const ContentCard = ({
     </Box>
   );
 };
+
+
 
 export default ContentCard;

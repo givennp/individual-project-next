@@ -53,7 +53,12 @@ const ProfilePage = () => {
     return userPost.map((post) => {
       return (
         <Box>
-          <Image boxSize="230px" margin="8px" objectFit="cover" src={post.image_url} />
+          <Image
+            boxSize="230px"
+            margin="8px"
+            objectFit="cover"
+            src={post.image_url}
+          />
         </Box>
       );
     });
@@ -61,7 +66,9 @@ const ProfilePage = () => {
 
   const renderTabContent = () => {
     if (menuTab === "bio") {
-      return userData.bio;
+      return <Text margin="10px 5px" fontSize="24px">
+        {userData.bio}
+        </Text>;
     }
 
     if (menuTab === "post") {
@@ -160,11 +167,10 @@ const ProfilePage = () => {
         </Box>
         <Box margin="15px">
           <Icon
-            color= "white"
+            color="white"
             boxSize="7"
             as={BsThreeDots}
             _hover={{
-              
               cursor: "pointer",
               color: "#a6a6a6",
             }}

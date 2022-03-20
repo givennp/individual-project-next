@@ -65,7 +65,7 @@ const Navbar = () => {
             href="/home"
             style={{
               display: "flex",
-              alignItems: "center",
+              alignitems: "center",
             }}
           >
             <Box
@@ -79,7 +79,7 @@ const Navbar = () => {
                 as={GiCorn}
                 boxSize="30px"
                 display="flex"
-                alignItem="center"
+                alignitem="center"
                 _hover={{
                   color: "#a6a6a6",
                 }}

@@ -11,7 +11,7 @@ const HomePage = () => {
 
   const fetchContentList = () => {
     axios.get(`${API_URL}/posts`,{params :{
-      _expand: "user"
+      _expand: "user",
     }})
     .then((res) => {
       setContentList(res.data);

@@ -28,18 +28,23 @@ const MyPost = () => {
     const renderPost = () => {
         return userPost.map((val) => {
             return (
-              <Box padding="5px" margin="5px">
-                <Img objectFit="cover" boxSize="250px" src={val.image_url} />
+              <Box>
+                <Img
+                  boxSize="230px"
+                  margin="8px"
+                  objectFit="cover"
+                  src={val.image_url}
+                />
               </Box>
             );
         })
     }
 
     return (
-        <Box display="flex">
-            {renderPost()}
-        </Box>
-    )
+      <Box display="flex" flexDirection="row" flexWrap="wrap">
+        {renderPost()}
+      </Box>
+    );
 }
 
 export default MyPost

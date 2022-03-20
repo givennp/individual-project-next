@@ -122,8 +122,9 @@ const MyProfilePage = () => {
             />
           </Box>
         </Box>
-        <Box>{renderTabContent()}</Box>
-       
+        <Box display="flex" flexDirection="row" flexWrap="wrap">
+          {renderTabContent()}
+        </Box>
       </Box>
     );
 }
