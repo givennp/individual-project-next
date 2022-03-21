@@ -58,18 +58,18 @@ const LoginPage = () => {
 
   return (
     <Box
-      border="1px solid white"
+      border="1px solid black"
       borderRadius="10px"
       marginBottom="20px"
       padding="15px"
-      color="white"
+      color="black"
     >
-      <Text marginBottom="8px" fontSize="32" fontWeight="bold" color="white">
+      <Text marginBottom="8px" fontSize="32" fontWeight="bold" color="black">
         LOG IN
       </Text>
       <Box display="flex" marginBottom="8px">
         <Center>
-          <Text color="white">Username :</Text>
+          <Text>Username :</Text>
           <Input
             onChange={(event) => inputHandler(event, "username")}
             marginLeft="8px"
@@ -80,7 +80,7 @@ const LoginPage = () => {
       </Box>
       <Box display="flex" marginBottom="20px">
         <Center>
-          <Text color="white">Password :</Text>
+          <Text>Password :</Text>
           <Input
             type="password"
             onChange={(event) => inputHandler(event, "password")}

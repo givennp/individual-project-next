@@ -47,7 +47,7 @@ const ContentCard = ({
       .get("/comments", {
         params: {
           postId: id,
-          _expand: "user"
+          _expand: "user",
         },
       })
       .then((res) => {
@@ -77,16 +77,16 @@ const ContentCard = ({
       postId: id,
     };
 
-    axiosInstance.post("/comments", newData).then(()=> {
-      fetchComments()
+    axiosInstance.post("/comments", newData).then(() => {
+      fetchComments();
 
-      setDisplayCommentInput(false)
-    })
+      setDisplayCommentInput(false);
+    });
   };
 
   useEffect(() => {
     fetchComments();
-  },[]);
+  }, []);
 
   return (
     <Box>
@@ -94,19 +94,19 @@ const ContentCard = ({
         borderWidth="1px 0px 0px 0px"
         borderColor="grey"
         maxW="700"
-        paddingY="2"
-        marginY="4"
+        padding="2"
+        marginBottom="10px"
         backgroundColor="black"
       >
         {/* Card Header */}
         <Box
-          marginTop="8px"
-          paddingX="3"
+          
+          padding="3"
           paddingBottom="2"
           display="flex"
           alignItems="center"
         >
-          <Link href={`/profile/${userId}`}>
+          <Link href={userSelector.id === userId? `/myProfile`: `/profile/${userId}` }>
             <Image
               borderRadius="5px"
               src={profile_picture}
@@ -127,7 +127,7 @@ const ContentCard = ({
             </Text>
           </Box>
         </Box>
-        <Box paddingX="3" marginBottom="3">
+        <Box paddingX="3" paddingY="3">
           <Text
             display="inline"
             fontSize="32px"
@@ -139,7 +139,7 @@ const ContentCard = ({
         </Box>
 
         {/* Card Media/Content */}
-        <Image minW="100%" src={imageUrl} />
+          <Image minW="100%" src={imageUrl} />
 
         {/* Action Buttons */}
         <Box
@@ -261,7 +261,5 @@ const ContentCard = ({
     </Box>
   );
 };
-
-
 
 export default ContentCard;

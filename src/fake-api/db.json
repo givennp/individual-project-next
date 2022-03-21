@@ -2,8 +2,8 @@
   "posts": [
     {
       "userId": 1,
-      "location": "bali",
-      "caption": "saya cinta orang ini",
+      "location": "rumah",
+      "caption": "dafuq",
       "numbers_of_likes": 0,
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/48/Jerinx.png",
       "id": 1
@@ -23,6 +23,12 @@
       "content": "test",
       "postId": 1,
       "id": 1
+    },
+    {
+      "userId": 1,
+      "content": "kontol",
+      "postId": 1,
+      "id": 2
     }
   ],
   "users": [

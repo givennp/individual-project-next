@@ -83,7 +83,7 @@ const ProfilePage = () => {
   }, []);
 
   return (
-    <Box display="flex" flexDirection="column" color="white" width="70vh">
+    <Box display="flex" flexDirection="column" color="black" width="70vh">
       <Box display="flex">
         <Center>
           <Avatar
@@ -112,7 +112,7 @@ const ProfilePage = () => {
         borderBottom="1px"
         justifyContent="space-between"
       >
-        <Box display="flex" color="#a6a6a6">
+        <Box display="flex" color="black">
           <Text
             padding="15px"
             _hover={{
