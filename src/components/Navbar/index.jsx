@@ -56,6 +56,7 @@ const Navbar = () => {
       borderBottom="1px"
       paddingX="15vh"
       position="sticky"
+      bg="black"
       top="0"
       zIndex="9"
     >

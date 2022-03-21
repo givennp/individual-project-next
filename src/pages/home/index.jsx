@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import ContentCard from "../../components/ContentCard";
 import axios from "axios";
-import { Box, Button, Center, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Center, Icon, Input, Text } from "@chakra-ui/react";
 import { API_URL } from "../../configs/api";
 import NavBar from "../../components/Navbar";
+import { BsFillCheckCircleFill } from "react-icons/bs";
+
 
 const HomePage = () => {
   const [contentList, setContentList] = useState([]);

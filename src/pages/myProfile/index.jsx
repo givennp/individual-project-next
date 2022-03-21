@@ -36,8 +36,8 @@ const MyProfilePage = () => {
   }
 
     return (
-      <Box display="flex" flexDirection="column" color="white" width="70vh">
-        <Box display="flex">
+      <Box display="flex" flexDirection="column" color="black" width="70vh">
+        <Box display="flex" >
           <Center>
             <Avatar
               margin="25px 25px 25px 0px"
@@ -64,11 +64,11 @@ const MyProfilePage = () => {
           borderBottom="1px"
           justifyContent="space-between"
         >
-          <Box display="flex" color="#a6a6a6">
+          <Box display="flex" color="black">
             <Text
               padding="15px"
               _hover={{
-                color: "white",
+                color: "grey",
                 cursor: "pointer",
               }}
               onClick={() => setMenuTab("bio")}
@@ -78,7 +78,7 @@ const MyProfilePage = () => {
             <Text
               padding="15px"
               _hover={{
-                color: "white",
+                color: "grey",
                 cursor: "pointer",
               }}
               onClick={() => setMenuTab("posts")}
@@ -88,7 +88,7 @@ const MyProfilePage = () => {
             <Text
               padding="15px"
               _hover={{
-                color: "white",
+                color: "grey",
                 cursor: "pointer",
               }}
               onClick={() => setMenuTab("comments")}
@@ -98,7 +98,7 @@ const MyProfilePage = () => {
             <Text
               padding="15px"
               _hover={{
-                color: "white",
+                color: "grey",
                 cursor: "pointer",
               }}
             >
@@ -107,7 +107,7 @@ const MyProfilePage = () => {
             <Text
               margin="15px"
               _hover={{
-                color: "white",
+                color: "grey",
                 cursor: "pointer",
               }}
             >
@@ -116,11 +116,11 @@ const MyProfilePage = () => {
           </Box>
           <Box margin="15px">
             <Icon
-              color="#a6a6a6"
+              color="black"
               boxSize="7"
               as={BsThreeDots}
               _hover={{
-                color: "white",
+                color: "grey",
                 cursor: "pointer",
               }}
             />

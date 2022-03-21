@@ -2,73 +2,27 @@
   "posts": [
     {
       "userId": 1,
-      "location": "BSD",
-      "image_url": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      "number_of_likes": 213424,
-      "caption": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+      "location": "bali",
+      "caption": "saya cinta orang ini",
+      "numbers_of_likes": 0,
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/48/Jerinx.png",
       "id": 1
     },
     {
       "userId": 1,
-      "location": "Jakarta",
-      "image_url": "https://images.unsplash.com/photo-1644982648600-4583461837f8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1724&q=80",
-      "number_of_likes": 53451,
-      "caption": "Lorem ipsum dolor sit amet",
-      "id": 2
-    },
-    {
-      "userId": 1,
-      "location": "Bandung",
-      "image_url": "https://images.unsplash.com/photo-1646194840487-e8d3586533a5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1626&q=80",
-      "number_of_likes": 123534,
-      "caption": "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
-      "id": 3
-    },
-    {
-      "userId": 1,
-      "location": "jidat putin",
-      "caption": "test ajah",
+      "location": "JOGLO",
+      "caption": "i love u mr.bean",
       "numbers_of_likes": 0,
-      "image_url": "http://s.kaskus.id/images/2015/03/12/6709989_20150312031242.jpg",
-      "id": 4
+      "image_url": "https://cdn1-production-images-kly.akamaized.net/c-Auze6NB2I_11-9kfFcBz988Zg=/1200x1200/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/840223/original/012309700_1427772429-rowan-atkinson-150331.jpg",
+      "id": 2
     }
   ],
   "comments": [
     {
-      "id": 1,
-      "userId": 3,
-      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      "postId": 1
-    },
-    {
-      "id": 2,
-      "userId": 1,
-      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      "postId": 1
-    },
-    {
       "userId": 1,
       "content": "test",
       "postId": 1,
-      "id": 3
-    },
-    {
-      "userId": 4,
-      "content": "test",
-      "postId": 2,
-      "id": 4
-    },
-    {
-      "userId": 1,
-      "content": "kontol",
-      "postId": 1,
-      "id": 5
-    },
-    {
-      "userId": 1,
-      "content": "gila loe",
-      "postId": 1,
-      "id": 6
+      "id": 1
     }
   ],
   "users": [
