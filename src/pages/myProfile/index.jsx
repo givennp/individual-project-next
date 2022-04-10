@@ -44,7 +44,6 @@ const MyProfilePage = () => {
               boxSize="130px"
               src={userSelector.avatar}
             />
-
             <Box>
               <Text fontSize="32px" fontWeight="bold">
                 {userSelector.username}

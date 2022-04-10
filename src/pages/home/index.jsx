@@ -1,45 +1,97 @@
 import { useState, useEffect } from "react";
 import ContentCard from "../../components/ContentCard";
-import axios from "axios";
-import { Box, Button, Center, Icon, Input, Text } from "@chakra-ui/react";
-import { API_URL } from "../../configs/api";
-import NavBar from "../../components/Navbar";
-import { BsFillCheckCircleFill } from "react-icons/bs";
-
+import { Box } from "@chakra-ui/react";
+import axiosInstance from "../../configs/api";
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
   const [contentList, setContentList] = useState([]);
+  const userSelector = useSelector(state => state.auth)
   // const [isLoading, setIsLoading] = useState("")
 
-  const fetchContentList = () => {
-    axios.get(`${API_URL}/posts`,{params :{
-      _expand: "user",
-    }})
-    .then((res) => {
-      setContentList(res.data);
-    });
+  const fetchContentList = async () => {
+    try {
+      const res = await axiosInstance.get("/posts", {
+        params: {
+          _sortBy: "id",
+          _sortDir: "DESC",
+        },
+      });
+      setContentList(res.data.result.rows);
+      console.log(res.data.result.rows);
+    } catch (err) {
+      console.log(err?.response?.data?.message);
+    }
+  };
+
+  const addLikeButton = async (postId, idx) => {
+    try {
+      await axiosInstance.post(`/posts/${postId}/likes/${userSelector.id}`);
+
+      const newLike = [...contentList];
+
+      newLike[idx].like_count++;
+
+      setContentList(newLike);
+
+      // console.log(newLike);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const removeLikeButton = async (postId, userId, idx) => {
+    try {
+      const res = await axiosInstance.delete(
+        `/posts/${postId}/likes/${userId}`
+      );
+
+      const newLike = [...contentList];
+
+      newLike[idx].like_count--;
+
+      setContentList(newLike);
+      // console.log(newLike);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const renderContentList = () => {
-    return contentList.map((val) => {
+    return contentList?.map((val, idx) => {
+      let like_status;
+      let isLiked = val?.post_like;
+
+      if (isLiked?.length) {
+        like_status = true;
+      } else {
+        like_status = false;
+      }
       return (
         <ContentCard
-          username={val.user.username}
+          username={val.post_user?.username}
           caption={val.caption}
           imageUrl={val.image_url}
           location={val.location}
-          numberOfLikes={val.number_of_likes}
+          numberOfLikes={val.like_count}
+          comment_count={val.comment_count}
+          dislike_count={val.dislike_count}
           id={val.id}
-          profile_picture={val.user.avatar}
-          userId={val.userId}
+          profile_picture={val.avatar}
+          addLikeButton={() => addLikeButton(val.id, idx)}
+          removeLikeButton={() => removeLikeButton(val.id, val.user_id, idx)}
+          userId={val.user_id}
+          like_status={like_status}
+          fetchContentList={fetchContentList}
+          key={val?.id?.toString()}
         />
       );
     });
   };
 
   useEffect(() => {
-    fetchContentList()
-  } , [])
+    fetchContentList();
+  }, []);
 
   return (
     <Box paddingY="8" left="0" right="0">

@@ -18,9 +18,9 @@ import { IoIosNotifications, IoMdChatbubbles } from "react-icons/io";
 import { BsPlusLg } from "react-icons/bs";
 import Link from "next/link"
 import { useSelector, useDispatch } from "react-redux";
-import user_types from "../../redux/reducers/types/user";
+import {user_types} from "../../redux/reducers/types/user";
 import { useRouter } from "next/dist/client/router";
-import Cookies from "js-cookie";
+import JsCookie from "js-cookie";
 
 
 const Navbar = () => {
@@ -34,8 +34,8 @@ const Navbar = () => {
     dispatch({
       type: user_types.LOGOUT_USER,
     });
-
-    Cookies.remove("user_data");
+    JsCookie.remove("auth_token")
+    
   };
 
   const uploadButton = () => {
@@ -126,7 +126,7 @@ const Navbar = () => {
               <MenuButton>
                 <Avatar
                   marginLeft="20px"
-                  src="https://miro.medium.com/max/1000/1*tv9pIQPhwumDnYBfCoapYg.jpeg"
+                  src={userSelector.Avatar}
                   _hover={{
                     cursor: "pointer",
                   }}

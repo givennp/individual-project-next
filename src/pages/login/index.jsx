@@ -1,60 +1,65 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ContentCard from "../../components/ContentCard";
-import axios from "axios";
-import { Box, Button, Text, Center, Input } from "@chakra-ui/react";
-import { axiosInstance } from "../../configs/api";
+import {
+  Box,
+  Button,
+  Text,
+  Center,
+  Input,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  InputGroup,
+  InputRightElement,
+  Icon,
+  Stack,
+} from "@chakra-ui/react";
 import user_types from "../../redux/reducers/types/user";
 import { useRouter } from "next/dist/client/router";
 import Cookies from "js-cookie";
 import Link from "next/link";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { userLogin } from "../../redux/actions/auth";
+import {IoMdEyeOff, IoMdEye} from "react-icons/io"
 
 const LoginPage = () => {
-  const [usernameInput, setUsernameInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
-
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
 
   const userSelector = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
-  const inputHandler = (event, field) => {
-    const { value } = event.target;
-    if (field === "username") {
-      setUsernameInput(value);
-    } else if (field === "password") {
-      setPasswordInput(value);
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: Yup.object().shape({
+      username: Yup.string().required("this field is required"),
+      password: Yup.string().required("this field is required"),
+    }),
+    validateOnChange: false,
+    onSubmit: (values) => {
+      setTimeout(() => {
+        dispatch(userLogin(values, formik.setSubmitting));
+      }, 2000);
+    },
+  });
+
+  const inputHandler = (event) => {
+    const { value, name } = event.target;
+
+    formik.setFieldValue(name, value);
+  };
+
+  useEffect(() => {
+    if (userSelector.id) {
+      router.push("/home");
     }
-  };
-
-  const loginButtonHandler = () => {
-    axiosInstance
-      .get("/users", {
-        params: {
-          username: usernameInput,
-          password: passwordInput,
-        },
-      })
-      .then((res) => {
-        const userData = res.data[0];
-
-        if (userData) {
-          dispatch({
-            type: user_types.LOGIN_USER,
-            payload: userData,
-          });
-          Cookies.set("user_data", JSON.stringify(userData));
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  if (userSelector.id) {
-    router.push("/home");
-  }
+  }, [userSelector.id]);
 
   return (
     <Box
@@ -63,31 +68,48 @@ const LoginPage = () => {
       marginBottom="20px"
       padding="15px"
       color="black"
+      w="400px"
     >
       <Text marginBottom="8px" fontSize="32" fontWeight="bold" color="black">
         LOG IN
       </Text>
-      <Box display="flex" marginBottom="8px">
-        <Center>
-          <Text>Username :</Text>
-          <Input
-            onChange={(event) => inputHandler(event, "username")}
-            marginLeft="8px"
-            width="400px"
-            type="text"
-          />
-        </Center>
-      </Box>
+      <Stack>
+          <FormControl isInvalid={formik.errors.username}>
+            <FormLabel htmlFor="inputUsername">Username :</FormLabel>
+            <Input
+              onChange={inputHandler}
+              type="text"
+              id="inputUsername"
+              name="username"
+            />
+            <FormHelperText>{formik.errors.username}</FormHelperText>
+          </FormControl>
+      </Stack>
       <Box display="flex" marginBottom="20px">
-        <Center>
-          <Text>Password :</Text>
-          <Input
-            type="password"
-            onChange={(event) => inputHandler(event, "password")}
-            marginLeft="14px"
-            width="400px"
-          />
-        </Center>
+          <FormControl isInvalid={formik.errors.password}>
+            <FormLabel mt="4" htmlFor="inputPassword">
+              Password
+            </FormLabel>
+            <InputGroup>
+              <Input
+                type={passwordVisible ? "text" : "password"}
+                id="inputPassword"
+                onChange={inputHandler}
+                name="password"
+              />
+              <InputRightElement
+                children={
+                  <Icon
+                    fontSize="xl"
+                    onClick={() => setPasswordVisible(!passwordVisible)}
+                    as={passwordVisible ? IoMdEyeOff : IoMdEye}
+                    sx={{ _hover: { cursor: "pointer" } }}
+                  />
+                }
+              />
+            </InputGroup>
+            <FormHelperText>{formik.errors.password}</FormHelperText>
+          </FormControl>
       </Box>
       <Box display="flex" flexDirection="column">
         <Link href="/register">
@@ -96,14 +118,14 @@ const LoginPage = () => {
             marginBottom="8px"
             color="#5c5c5c"
             _hover={{
-              color: "white",
+              color: "black",
               cursor: "pointer",
             }}
           >
             Didn't have an account?
           </Text>
         </Link>
-        <Button colorScheme="green" onClick={loginButtonHandler}>
+        <Button colorScheme="green" onClick={formik.handleSubmit} disabled={formik.isSubmitting}>
           Login
         </Button>
       </Box>

@@ -1,27 +1,31 @@
-import { Box, defaultStandaloneParam, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  defaultStandaloneParam,
+  Flex,
+  Img,
+  Text,
+} from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
-import { axiosInstance } from "../../../configs/api";
+import axiosInstance from "../../../configs/api";
 
 const MyComments = () => {
   const [userComments, setUserComments] = useState([]);
   const userSelector = useSelector((state) => state.auth);
 
-
-  const fetchComments = () => {
-    axiosInstance
-      .get("/comments", {
+  const fetchComments = async () => {
+    try {
+      const res = await axiosInstance.get("/comments", {
         params: {
-          userId: userSelector.id,
+          user_id: userSelector.id,
         },
-      })
-      .then((res) => {
-        setUserComments(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
       });
+      setUserComments(res.data.result.rows);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -29,24 +33,21 @@ const MyComments = () => {
   }, []);
 
   const renderComments = () => {
-      return userComments.map((comment) => {
-          return (
-              <Text>{comment.content}</Text>
-          )
-      })
-  }
+    return userComments.map((comment) => {
+      return (
+          <Flex p={8} width="700px" justifyContent="space-between" borderBottom="1px solid black">
+            <Text fontSize="24px">{comment.content}</Text>
+            <Img src={comment?.Post?.image_url} boxSize="100px" objectFit="cover" />
+          </Flex>
+      );
+    });
+  };
 
-  return(
+  return (
     <Box>
-        <Text>{renderComments()}</Text>
+      <Text>{renderComments()}</Text>
     </Box>
-  )
-
-
+  );
 };
 
-export default MyComments
-
-
-
-
+export default MyComments;

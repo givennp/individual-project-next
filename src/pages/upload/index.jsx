@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ContentCard from "../../components/ContentCard";
-import axios from "axios";
+import { useFormik } from "formik";
 import {
   Box,
   Button,
@@ -16,56 +16,93 @@ import {
   ModalBody,
   ModalCloseButton,
   FormLabel,
+  Container,
 } from "@chakra-ui/react";
-import { axiosInstance } from "../../configs/api";
+import axiosInstance from "../../configs/api";
 import user_types from "../../redux/reducers/types/user";
 import { useRouter } from "next/dist/client/router";
 import { useDisclosure } from "@chakra-ui/react";
 
+
 const Upload = () => {
-    const [inputImage, setInputImage] = useState("")
-    const [inputCaption, setInputCaption] = useState("")
-    const [inputLocation, setInputLocation] = useState("")
+  const authSelector = useSelector((state) => state.auth);
+  const [selectedFile, setSelectedFile] = useState(null);
 
-    const userSelector = useSelector((state) => state.auth)
+  const router = useRouter()
 
-    const inputImgHandler = (event) => {
-        const { value } = event.target
+  const inputFileRef = useRef(null);
 
-        setInputImage(value)
+  const formik = useFormik({
+    initialValues: {
+      caption: "",
+      location: "",
+    },
+  });
+
+  const handleFile = (event) => {
+    setSelectedFile(event.target.files[0]);
+    alert(event.target.files[0].name);
+  };
+
+  const uploadContentHandler = async () => {
+    // Proteksi jika file belum dipilih
+    if (!selectedFile) {
+      alert("Anda belum pilih file");
+      return;
     }
 
-    const inputCaptionHandler = (event) => {
-      const { value } = event.target;
+    const formData = new FormData();
+    const { caption, location } = formik.values;
 
-      setInputCaption(value);
-    };
+    formData.append("caption", caption);
+    formData.append("location", location);
+    formData.append("user_id", authSelector.id)
+    formData.append("post_image_file", selectedFile);
 
-    const inputLocationHandler = (event) => {
-      const { value } = event.target;
+    router.push("/home")    
 
-      setInputLocation(value);
-    };
-
-    const postButtonHandler = () => {
-        const newPost = {
-            userId: userSelector.id,
-            location : inputLocation,
-            caption : inputCaption,
-            numbers_of_likes: 0,
-            image_url: inputImage
-        }
-
-        axiosInstance.post("/posts", newPost)
+    try {
+      await axiosInstance.post("/posts", formData);
+      setSelectedFile(null);
+      formik.setFieldValue("caption", "");
+      formik.setFieldValue("location", "");
+    } catch (err) {
+      console.log(err);
     }
+  };
 
   return (
-    <Box>
-      <Input onChange={inputImgHandler} placeholder="img url" />
-      <Input onChange={inputCaptionHandler} placeholder="caption" />
-      <Input onChange={inputLocationHandler} placeholder="location" />
-      <Button onClick={()=>postButtonHandler()} colorScheme="green">post</Button>
-    </Box>
+    <Container>
+      <Box>
+        <FormLabel>Caption</FormLabel>
+        <Input
+          value={formik.values.caption}
+          onChange={(e) => formik.setFieldValue("caption", e.target.value)}
+        />
+        <FormLabel>Location</FormLabel>
+        <Input
+          value={formik.values.location}
+          onChange={(e) => formik.setFieldValue("location", e.target.value)}
+        />
+        <FormLabel>Image</FormLabel>
+        <Input
+          accept="image/png, image/jpeg"
+          onChange={handleFile}
+          ref={inputFileRef}
+          type="file"
+          display="none"
+        />
+        <Button
+          onClick={() => inputFileRef.current.click()}
+          colorScheme="facebook"
+        >
+          Choose File
+        </Button>
+        <Button onClick={uploadContentHandler} colorScheme="green" ml={4}>
+          Upload Content
+        </Button>
+      </Box>
+    </Container>
   );
 };
 

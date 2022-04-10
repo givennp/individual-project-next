@@ -12,40 +12,29 @@ import { BsThreeDots } from "react-icons/bs";
 import { IconBase } from "react-icons/lib";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { axiosInstance } from "../../configs/api";
+import axiosInstance from "../../configs/api";
 import { useRouter } from "next/router";
 import requiresAuth from "../../components/requiresAuth";
 
-const ProfilePage = () => {
+const ProfilePage = ({ userProfileData }) => {
   const [userData, setUserData] = useState([]);
   const [userPost, setUserPost] = useState([]);
   const [menuTab, setMenuTab] = useState("post");
   const router = useRouter();
-
-  const fetchUserData = async () => {
-    try {
-      const res = await axiosInstance.get("/users", {
-        params: {
-          userId: router.query.profile,
-        },
-      });
-      setUserData(res.data[0]);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   const fetchUserPost = async () => {
     try {
       const res = await axiosInstance.get("/posts", {
         params: {
           userId: router.query.profile,
+          _sortBy: "id",
+          _sortDir: "DESC"
         },
       });
 
-      setUserPost(res.data);
+      setUserPost(res.data.result.rows);
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   };
 
@@ -67,7 +56,7 @@ const ProfilePage = () => {
   const renderTabContent = () => {
     if (menuTab === "bio") {
       return <Text margin="10px 5 px" fontSize="24px">
-        {userData.bio}
+        {userProfileData.bio}
         </Text>;
     }
 
@@ -78,7 +67,6 @@ const ProfilePage = () => {
 
   
   useEffect(() => {
-    fetchUserData();
     fetchUserPost();
   }, []);
 
@@ -89,15 +77,15 @@ const ProfilePage = () => {
           <Avatar
             margin="25px 25px 25px 0px"
             boxSize="130px"
-            src={userData.avatar}
+            src={userProfileData.avatar}
           />
 
           <Box>
             <Text fontSize="32px" fontWeight="bold">
-              {userData.username}
+              {userProfileData.username}
             </Text>
             <Text color="grey" fontSize="16px">
-              {userData.email}
+              {userProfileData.email}
             </Text>
           </Box>
         </Center>
@@ -185,12 +173,17 @@ const ProfilePage = () => {
   );
 };
 
-export const getServerSideProps = requiresAuth((context) => {
-  const userData = context.req.cookies.user_data;
+export const getServerSideProps = requiresAuth( async (context) => {
+  // Dapetin route params
+  // Fetch user profile based on ID dari route params
+  // passing data lewat props
+        const res = await axiosInstance.get(`/users/${context.query.profile}`);
+
+        
 
   return {
     props: {
-      user: userData,
+      userProfileData: res.data.result
     },
   };
 });

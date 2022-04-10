@@ -16,14 +16,14 @@ import {
   Icon,
   Flex,
 } from "@chakra-ui/react";
-import { axiosInstance } from "../../configs/api";
+import axiosInstance from "../../configs/api";
 import { useRouter } from "next/dist/client/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import Router from "next/router";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const router = useRouter();
 
   const toast = useToast();
@@ -32,7 +32,7 @@ const LoginPage = () => {
     initialValues: {
       email: "",
       username: "",
-      avatar: "",
+      fullname: "",
       password: "",
     },
     validationSchema: Yup.object().shape({
@@ -43,7 +43,7 @@ const LoginPage = () => {
         .min(8, "minimum length of username is 8")
         .max(15, "max length of username is 15")
         .required("this field is required"),
-      avatar: Yup.string().required("this field is required"),
+      fullname: Yup.string(),
       password: Yup.string().min(8, "min length of password is 8").required(),
     }),
     validateOnChange: false,
@@ -51,10 +51,10 @@ const LoginPage = () => {
       const newUser = {
         email: values.email,
         username: values.username,
-        avatar: values.avatar,
+        full_name: values.fullname,
         password: values.password,
       };
-      await axiosInstance.post("/users", newUser);
+      await axiosInstance.post("/auth/register", newUser);
       formik.setSubmitting(false);
       Router.push("/login");
       toast({
@@ -82,19 +82,18 @@ const LoginPage = () => {
 
   return (
     <Box
-      border="1px solid white"
+      border="1px solid black"
       borderRadius="10px"
       marginBottom="20px"
       padding="15px"
-      color="white"
     >
-      <Text marginBottom="8px" fontSize="32" fontWeight="bold" color="white">
+      <Text marginBottom="8px" fontSize="32" fontWeight="bold">
         SIGN UP
       </Text>
       <Box display="flex" marginBottom="8px">
         <Center>
           <FormControl isInvalid={formik.errors.username}>
-            <Text color="white">Username :</Text>
+            <Text>Username :</Text>
             <Input
               onChange={(event) =>
                 formik.setFieldValue("username", event.target.value)
@@ -110,8 +109,25 @@ const LoginPage = () => {
       </Box>
       <Box display="flex" marginBottom="8px">
         <Center>
+          <FormControl isInvalid={formik.errors.fullname}>
+            <Text>Fullname :</Text>
+            <Input
+              onChange={(event) =>
+                formik.setFieldValue("fullname", event.target.value)
+              }
+              marginLeft="8px"
+              width="400px"
+              type="text"
+              name="fullname"
+            />
+            <FormHelperText>{formik.errors.fullname}</FormHelperText>
+          </FormControl>
+        </Center>
+      </Box>
+      <Box display="flex" marginBottom="8px">
+        <Center>
           <FormControl isInvalid={formik.errors.username}>
-            <Text color="white">email :</Text>
+            <Text>email :</Text>
             <Input
               onChange={(event) =>
                 formik.setFieldValue("email", event.target.value)
@@ -125,27 +141,10 @@ const LoginPage = () => {
           </FormControl>
         </Center>
       </Box>
-      <Box display="flex" marginBottom="8px">
-        <Center>
-          <FormControl isInvalid={formik.errors.avatar}>
-            <Text color="white">Avatar :</Text>
-            <Input
-              onChange={(event) =>
-                formik.setFieldValue("avatar", event.target.value)
-              }
-              marginLeft="8px"
-              width="400px"
-              type="text"
-              name="avatar"
-            />
-            <FormHelperText>{formik.errors.avatar}</FormHelperText>
-          </FormControl>
-        </Center>
-      </Box>
       <Box display="flex" marginBottom="20px">
         <Center>
           <FormControl isInvalid={formik.errors.password}>
-            <Text color="white">Password :</Text>
+            <Text>Password :</Text>
             <Input
               type="password"
               onChange={(event) =>
@@ -168,4 +167,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

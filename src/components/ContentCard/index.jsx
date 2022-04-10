@@ -17,8 +17,7 @@ import {
   FaArrowDown,
 } from "react-icons/fa";
 import Comment from "../Comment";
-import axios from "axios";
-import { axiosInstance } from "../../configs/api";
+import axiosInstance from "../../configs/api";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import requiresAuth from "../requiresAuth";
@@ -32,35 +31,36 @@ const ContentCard = ({
   id,
   profile_picture,
   userId,
+  comment_count,
+  fetchContentList,
+  dislike_count,
+  addLikeButton,
+  like_status,
+  removeLikeButton,
 }) => {
   // const { username, location, caption, numberOfLikes, imageUrl } = props;
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
   const [toggleComment, setToggleComment] = useState(false);
+  const [likeStatus, setLikeStatus] = useState(like_status);
 
   const [displayCommentInput, setDisplayCommentInput] = useState(false);
 
   const userSelector = useSelector((state) => state.auth);
 
   const fetchComments = async () => {
-    await axiosInstance
-      .get("/comments", {
-        params: {
-          postId: id,
-          _expand: "user",
-        },
-      })
-      .then((res) => {
-        setComments(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const res = await axiosInstance.get(`/comments`, {
+      params: {
+        post_id: id,
+      },
+    });
+
+    setComments(res.data.result.rows);
   };
 
   const renderComments = () => {
     return comments.map((val) => {
-      return <Comment content={val?.content} username={val?.user?.username} />;
+      return <Comment content={val?.content} username={val?.User?.username} />;
     });
   };
 
@@ -70,18 +70,19 @@ const ContentCard = ({
     setCommentInput(value);
   };
 
-  const postNewComment = () => {
+  const postNewComment = async () => {
     const newData = {
-      userId: userSelector.id,
+      user_id: userSelector.id,
       content: commentInput,
-      postId: id,
+      post_id: id,
     };
 
-    axiosInstance.post("/comments", newData).then(() => {
-      fetchComments();
+    await axiosInstance.post("/comments", newData);
 
-      setDisplayCommentInput(false);
-    });
+    fetchComments();
+    fetchContentList();
+
+    setDisplayCommentInput(false);
   };
 
   useEffect(() => {
@@ -99,14 +100,12 @@ const ContentCard = ({
         backgroundColor="black"
       >
         {/* Card Header */}
-        <Box
-          
-          padding="3"
-          paddingBottom="2"
-          display="flex"
-          alignItems="center"
-        >
-          <Link href={userSelector.id === userId? `/myProfile`: `/profile/${userId}` }>
+        <Box padding="3" paddingBottom="2" display="flex" alignItems="center">
+          <Link
+            href={
+              userSelector.id === userId ? `/myProfile` : `/profile/${userId}`
+            }
+          >
             <Image
               borderRadius="5px"
               src={profile_picture}
@@ -139,7 +138,14 @@ const ContentCard = ({
         </Box>
 
         {/* Card Media/Content */}
+        <Link
+          href={
+            // userSelector.id === userId ? `/myProfile` : 
+            `/postDetail/${id}`
+          }
+        >
           <Image minW="100%" src={imageUrl} />
+        </Link>
 
         {/* Action Buttons */}
         <Box
@@ -149,27 +155,60 @@ const ContentCard = ({
           display="flex"
           alignItems="center"
         >
-          <Box
-            width="120px"
-            padding="2"
-            backgroundColor="black"
-            border="1px solid white"
-            display="flex"
-            justifyContent="center"
-            borderRadius="4px"
-            sx={{
-              _hover: {
-                cursor: "pointer",
-              },
-            }}
-          >
-            <Center>
-              <Icon color="white" boxSize={6} as={FaArrowUp} />
-              <Text color="white" marginLeft="8px">
-                {numberOfLikes?.toLocaleString()}
-              </Text>
-            </Center>
-          </Box>
+          {likeStatus ? (
+            <Box
+              width="120px"
+              padding="2"
+              backgroundColor="white"
+              border="1px solid white"
+              display="flex"
+              justifyContent="center"
+              borderRadius="4px"
+              onClick={() => {
+                removeLikeButton();
+                setLikeStatus(false);
+              }}
+              sx={{
+                _hover: {
+                  cursor: "pointer",
+                },
+              }}
+            >
+              <Center>
+                <Icon color="black" boxSize={6} as={FaArrowUp} />
+                <Text color="black" marginLeft="8px">
+                  {numberOfLikes?.toLocaleString()}
+                </Text>
+              </Center>
+            </Box>
+          ) : (
+            <Box
+              width="120px"
+              padding="2"
+              backgroundColor="black"
+              border="1px solid white"
+              display="flex"
+              justifyContent="center"
+              borderRadius="4px"
+              onClick={() => {
+                addLikeButton();
+                setLikeStatus(true);
+              }}
+              sx={{
+                _hover: {
+                  cursor: "pointer",
+                },
+              }}
+            >
+              <Center>
+                <Icon color="white" boxSize={6} as={FaArrowUp} />
+                <Text color="white" marginLeft="8px">
+                  {numberOfLikes?.toLocaleString()}
+                </Text>
+              </Center>
+            </Box>
+          )}
+
           <Box
             width="120px"
             padding="2"
@@ -188,7 +227,7 @@ const ContentCard = ({
             <Center>
               <Icon color="white" boxSize={6} as={FaArrowDown} />
               <Text color="white" marginLeft="8px">
-                832
+                {dislike_count.toLocaleString()}
               </Text>
             </Center>
           </Box>
@@ -210,7 +249,7 @@ const ContentCard = ({
             <Center>
               <Icon boxSize={5} as={FaCommentAlt} color="white" />
               <Text color="white" marginLeft="8px">
-                34
+                {comment_count?.toLocaleString()}
               </Text>
             </Center>
           </Box>
@@ -220,7 +259,7 @@ const ContentCard = ({
         <Box paddingX="3" marginTop="4">
           {/* Comment Input */}
           {displayCommentInput ? (
-            <Box display="flex">
+            <Box display="flex" color="white">
               <Input
                 onChange={handleCommentInput}
                 marginBottom="2"

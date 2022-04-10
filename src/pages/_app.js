@@ -6,11 +6,10 @@ import rootReducer from "../redux/store";
 import Navbar from "../components/Navbar";
 import "./_apps.css";
 import AuthProvider from "../components/AuthProvider";
+import store from "../redux/store";
 
-const store = createStore(rootReducer);
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter();
 
   return (
     <Provider store={store}>
