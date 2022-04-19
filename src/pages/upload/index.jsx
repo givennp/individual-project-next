@@ -22,6 +22,7 @@ import axiosInstance from "../../configs/api";
 import user_types from "../../redux/reducers/types/user";
 import { useRouter } from "next/dist/client/router";
 import { useDisclosure } from "@chakra-ui/react";
+import moment from "moment";
 
 
 const Upload = () => {
@@ -57,6 +58,7 @@ const Upload = () => {
     formData.append("caption", caption);
     formData.append("location", location);
     formData.append("user_id", authSelector.id)
+    formData.append("date_created", moment().format('MMMM Do YYYY'));
     formData.append("post_image_file", selectedFile);
 
     router.push("/home")    

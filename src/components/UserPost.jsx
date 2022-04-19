@@ -24,7 +24,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup"
 
-const UserPost = ({ image_url, postId, fetchPost }) => {
+const UserPost = ({ image_url, postId, fetchPost, caption, location }) => {
   const [editPostId, setEditPostId] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -121,6 +121,7 @@ const UserPost = ({ image_url, postId, fetchPost }) => {
               <FormControl>
                 <FormLabel htmlFor="inputNewCaption">Caption</FormLabel>
                 <Input
+                  defaultValue={caption}
                   id="inputNewCaption"
                   onChange={(event) =>
                     formik.setFieldValue("newCaption", event.target.value)
@@ -130,6 +131,7 @@ const UserPost = ({ image_url, postId, fetchPost }) => {
               <FormControl>
                 <FormLabel htmlFor="inputNewLocation">Location</FormLabel>
                 <Input
+                  defaultValue={location}
                   id="inputNewLocation"
                   onChange={(event) =>
                     formik.setFieldValue("newLocation", event.target.value)

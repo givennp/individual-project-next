@@ -62,6 +62,8 @@ const MyPost = () => {
         <UserPost
           fetchPost={fetchPost}
           image_url={val?.image_url}
+          caption={val.caption}
+          location={val.location}
           postId={val?.id}
           key={val?.id?.toString()}
         />

@@ -35,6 +35,7 @@ const Navbar = () => {
       type: user_types.LOGOUT_USER,
     });
     JsCookie.remove("auth_token")
+    router.push("/")
     
   };
 
@@ -126,7 +127,7 @@ const Navbar = () => {
               <MenuButton>
                 <Avatar
                   marginLeft="20px"
-                  src={userSelector.Avatar}
+                  src={userSelector.avatar}
                   _hover={{
                     cursor: "pointer",
                   }}

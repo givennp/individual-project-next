@@ -15,6 +15,8 @@ import {
   background,
   Icon,
   Flex,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import axiosInstance from "../../configs/api";
 import { useRouter } from "next/dist/client/router";
@@ -22,8 +24,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import Router from "next/router";
-
+import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 const RegisterPage = () => {
+  const[showPass, setShowPass] = useState(false)
+  const[showConfirmPass, setShowConfirmPass] = useState(false)
+
   const router = useRouter();
 
   const toast = useToast();
@@ -34,6 +39,7 @@ const RegisterPage = () => {
       username: "",
       fullname: "",
       password: "",
+      confirmPassword: ""
     },
     validationSchema: Yup.object().shape({
       email: Yup.string()
@@ -44,7 +50,8 @@ const RegisterPage = () => {
         .max(15, "max length of username is 15")
         .required("this field is required"),
       fullname: Yup.string(),
-      password: Yup.string().min(8, "min length of password is 8").required(),
+      password: Yup.string().required().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, "your password must contain atleast 8 characters, one uppercase, one lowercase, one number, and one special case character"),
+      confirmPassword: Yup.string().required("please confirm your password").oneOf([Yup.ref("password"), null], "your password does not match")
     }),
     validateOnChange: false,
     onSubmit: async (values) => {
@@ -141,20 +148,53 @@ const RegisterPage = () => {
           </FormControl>
         </Center>
       </Box>
-      <Box display="flex" marginBottom="20px">
+      <Box display="flex" marginBottom="20px" w="200px">
         <Center>
           <FormControl isInvalid={formik.errors.password}>
             <Text>Password :</Text>
-            <Input
-              type="password"
-              onChange={(event) =>
-                formik.setFieldValue("password", event.target.value)
-              }
-              marginLeft="14px"
-              width="400px"
-              name="password"
-            />
+            <InputGroup>
+              <Input
+                type={showPass ? "text" : "password"}
+                onChange={(event) =>
+                  formik.setFieldValue("password", event.target.value)
+                }
+                marginLeft="14px"
+                width="400px"
+                name="password"
+              />
+              <InputRightElement>
+                <Icon
+                  as={showPass ? IoMdEyeOff : IoMdEye}
+                  onClick={() => setShowPass(!showPass)}
+                />
+              </InputRightElement>
+            </InputGroup>
             <FormHelperText>{formik.errors.password}</FormHelperText>
+          </FormControl>
+        </Center>
+      </Box>
+      <Box display="flex" marginBottom="20px">
+        <Center>
+          <FormControl isInvalid={formik.errors.confirmPassword}>
+            <Text>Confirm Password :</Text>
+            <InputGroup>
+              <Input
+                type={showConfirmPass ? "text" : "password"}
+                onChange={(event) =>
+                  formik.setFieldValue("confirmPassword", event.target.value)
+                }
+                marginLeft="14px"
+                width="400px"
+                name="confirmPassword"
+              />
+              <InputRightElement>
+                <Icon
+                  as={showConfirmPass ? IoMdEyeOff : IoMdEye}
+                  onClick={() => setShowConfirmPass(!showConfirmPass)}
+                />
+              </InputRightElement>
+            </InputGroup>
+            <FormHelperText>{formik.errors.confirmPassword}</FormHelperText>
           </FormControl>
         </Center>
       </Box>

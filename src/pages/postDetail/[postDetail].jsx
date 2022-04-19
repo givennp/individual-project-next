@@ -19,11 +19,43 @@ import { useRouter } from "next/router";
 import requiresAuth from "../../components/requiresAuth";
 import axios from "axios";
 
-const postDetailPage = ({ postDetailData, Comments }) => {
+const postDetailPage = ({ postDetailData }) => {
+  const [comment, setComment] = useState([]);
+  const [page, setPage] = useState(1);
+
+  const fetchComments = async () => {
+    try {
+      const res = await axiosInstance.get(`/comments`, {
+        params: {
+          post_id: postDetailData.id,
+          _page: page,
+          _limit: 3,
+        },
+      });
+
+      setComment([...comment, ...res.data.result.rows]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchComments();
+  }, [page]);
+
+  const fetchNextComments = () => {
+    setPage(page + 1);
+  };
+
   const renderComments = () => {
-    return Comments.map((val) => {
+    return comment.map((val) => {
       return (
-        <Box margin="10px" borderBottom="1px solid grey" paddingX="5px">
+        <Box
+          w="200px"
+          margin="10px"
+          borderBottom="1px solid grey"
+          paddingX="5px"
+        >
           <Text fontWeight="semibold" textDecoration="underline">
             {val.User?.username}
           </Text>
@@ -45,17 +77,25 @@ const postDetailPage = ({ postDetailData, Comments }) => {
             {postDetailData.caption}
           </Text>
 
-          <Img maxW="700px" src={postDetailData.image_url} />
+          <Img maxW="700px" minW="500px" src={postDetailData.image_url} />
         </Box>
         <Box pl="10px">
-          <Text
-            fontSize="32px"
-            fontWeight="bold"
-            margin="20px"
-          >
+          <Text fontSize="32px" fontWeight="bold" margin="20px">
             Comments
           </Text>
-          {renderComments()}
+          <Box height="420px" overflowY={comment.length > 6? "scroll" : "none"}>
+            {renderComments()}
+          </Box>
+          <Text
+            onClick={fetchNextComments}
+            sx={{
+              _hover: {
+                cursor: "pointer",
+              },
+            }}
+          >
+            See more...
+          </Text>
         </Box>
       </Flex>
     </Box>
@@ -80,12 +120,10 @@ export const getServerSideProps = requiresAuth(async (context) => {
       },
     });
 
-    console.log(res.data.result.rows[0]);
-
     return {
       props: {
         postDetailData: res.data.result.rows[0],
-        Comments: res.data.result.rows[0].Comments,
+        // Comments: res.data.result.rows[0].Comments,
       },
     };
   } catch (err) {

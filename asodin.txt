@@ -1,0 +1,160 @@
+2.   Pernyataan mana yang paling tepat mendeskripsikan HTTP Method REST API
+POST digunakan untuk menambahkan data, data lewat route params
+
+PATCH digunakan untuk edit data, data lewat query oarams
+
+GET digunakan untuk baca data, data lewat query params
+
+DELETE digunakan untuk hapus data, data lewat route params
+
+
+9.   Response code apa yang kita berikan jika seorang user tidak diperbolehkan mengakses route?
+301
+
+401
+
+500
+
+400
+
+
+10.   Sebuah table di MySQL disebut sebagai apa di MongoDB?
+collection
+
+document
+
+schema
+
+field
+
+
+12.   Untuk melakukan parsing request body, kita menggunakan fitur dari library..
+express
+
+req-body-parse
+
+json
+
+multer
+
+
+1.   Sebuah function yang bersifat sebagai perantara disebut sebagai..
+middleware
+
+controller
+
+route
+
+use
+
+
+3.   Dimanakah kita seharusnya menyimpan credentials rahasia seperti JWT Key, dan database credentials?
+environment variables
+
+configs
+
+lib
+
+constant variable
+
+
+4.   Manakah URL yang paling tepat untuk mendapatkan genres sebuah movie?
+/movies?id=genre
+
+/movie/:id/genres
+
+/movies?genre=2
+
+/movie/genre/:id
+
+
+5.   /students?_limit=1&_page=3Bagaimana cara kita bisa mengakses _limit dan _page?
+query.params
+
+req.query
+
+req.params
+
+req.headers
+
+
+6.   Informasi tambahan mengenai request biasanya disimpan di..
+query params
+
+body
+
+headers
+
+route params
+
+
+7.   Jika sebuah ecommerce memiliki fitur, seorang user dapat memiliki lebih dari 1 alamat. Bagaimana cara kita design database-nya dengan tepat?
+Membuat 3 table untuk relasi one-to-many. Table alamat menyimpan foreign key
+
+Membuat 2 table untuk relasi one-to-many. Table alamat menyimpan foreign key
+
+Membuat 3 table untuk relasi many-to-many. Table alamat menyimpan foreign key
+
+Membuat 2 table untuk relasi one-to-many. Table user menyimpan foreign key
+
+
+8.   Untuk menambahkan sebuah address kepada user (1-to-many). URL mana yang paling tepat kita gunakan?
+POST /user
+
+PATCH /user/:id
+
+POST /user/:id/address
+
+PUT /address/:id
+
+
+11.   Jika kita ingin membuat fitur following/follower di aplikasi kita, design database apa yang kita harus gunakan?
+one-to-one
+
+one-to-many
+
+many-to-many
+
+
+13.   Koneksi apa yang kita gunakan untuk mendapatkan real-time data?
+http
+
+tls
+
+websocket
+
+smtp
+
+
+14.   Proses konversi data menjadi data rahasia yang bisa dikembalikan ke wujud aslinya disebut..
+encryption
+
+decryption
+
+hashing
+
+obfuscation
+
+
+15.   FK Constraint apa yang menyebabkan sebuah child row (menyimpan FK) terhapus jika parent row-nya dihapus.
+on update
+
+CASCADE
+
+on delete
+
+SET NULL
+
+on delete
+
+CASCADE
+
+on update
+
+SET NULL
+
+
+16.   Apa algoritma yang paling tepat digunakan untuk me-reverse binary tree?
+jujur gatau bang
+
+tau, tapi gamau kasih tau

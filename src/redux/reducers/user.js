@@ -7,7 +7,8 @@ const initial_state = {
   email: "",
   bio: "",
   avatar: "",
-  full_name: ""
+  full_name: "",
+  is_verified: false
 };
 
 export const userReducer = (state = initial_state, action) => {
@@ -20,7 +21,8 @@ export const userReducer = (state = initial_state, action) => {
             bio: action.payload.bio,
             avatar: action.payload.avatar,
             full_name: action.payload.full_name,
-            errorMsg: ""
+            errorMsg: "",
+            is_verified: action.payload.is_verified
         }
     } else if (action.type === user_types.LOGOUT_USER){
         return initial_state
