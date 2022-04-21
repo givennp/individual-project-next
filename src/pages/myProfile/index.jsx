@@ -21,6 +21,7 @@ import {
   FormLabel,
   Button,
   AvatarBadge,
+  Link,
 } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
 import { IconBase } from "react-icons/lib";
@@ -117,12 +118,12 @@ const MyProfilePage = () => {
   };
 
   const resendEmailVerification = async () => {
-    try { 
-      await axiosInstance.post("/auth/resend-verification")
+    try {
+      await axiosInstance.post("/auth/resend-verification");
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const renderTabContent = () => {
     if (menuTab === "bio") {
@@ -147,7 +148,7 @@ const MyProfilePage = () => {
           />
           {!selectedFile ? (
             <Avatar
-              boxSize="130px"
+              boxSize="100px"
               margin="25px 25px 25px 0px"
               src={userSelector.avatar}
               onClick={() => inputFileRef.current.click()}
@@ -160,7 +161,7 @@ const MyProfilePage = () => {
             />
           ) : (
             <Avatar
-              boxSize="130px"
+              boxSize="100px"
               margin="25px 25px 25px 0px"
               src={URL.createObjectURL(selectedFile)}
             >
@@ -181,22 +182,22 @@ const MyProfilePage = () => {
 
           <Box>
             <Flex>
-              <Text fontSize="32px" fontWeight="bold" mr="10px">
+              <Text fontSize="24px" fontWeight="bold" mr="5px">
                 {userSelector.username}
               </Text>
               <Box
                 onClick={onOpen}
-                boxSize="20px"
+                boxSize="15px"
                 sx={{
                   _hover: {
                     cursor: "pointer",
                   },
                 }}
               >
-                <Icon boxSize="20px" as={RiPencilFill} margin="15px" />
+                <Icon boxSize="15px" as={RiPencilFill} margin="10px" />
               </Box>
             </Flex>
-            <Text marginY="7px" fontSize="24px" fontWeight="light">
+            <Text marginY="2px" fontSize="20px" fontWeight="light">
               {userSelector.full_name}
             </Text>
 
@@ -208,13 +209,12 @@ const MyProfilePage = () => {
           {/* modal */}
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent h="600px" w="800px">
+            <ModalContent h="600px" w="700px">
               <ModalHeader fontSize="24px" fontWeight="600">
                 Edit
               </ModalHeader>
               <ModalCloseButton />
               <ModalBody fontWeight="500">
-                <Center></Center>
                 <Stack spacing={8}>
                   <FormControl isInvalid={formik.errors.newUsername}>
                     <FormLabel htmlFor="inputNewUsername">Username</FormLabel>
@@ -249,6 +249,9 @@ const MyProfilePage = () => {
                       }
                     />
                   </FormControl>
+                  <Link href="/forgotPassword">
+                    <Button>Reset Password</Button>
+                  </Link>
                 </Stack>
               </ModalBody>
               <ModalFooter>
@@ -273,7 +276,7 @@ const MyProfilePage = () => {
         </Button>
       )}
       <Box
-        fontSize="20px"
+        fontSize="16px"
         fontWeight="bold"
         display="flex"
         marginTop="8"
@@ -333,7 +336,7 @@ const MyProfilePage = () => {
         <Box margin="15px">
           <Icon
             color="black"
-            boxSize="7"
+            boxSize="5"
             as={BsThreeDots}
             _hover={{
               color: "grey",

@@ -61,7 +61,7 @@ const Upload = () => {
     formData.append("date_created", moment().format('MMMM Do YYYY'));
     formData.append("post_image_file", selectedFile);
 
-    router.push("/home")    
+    router.push("/")    
 
     try {
       await axiosInstance.post("/posts", formData);

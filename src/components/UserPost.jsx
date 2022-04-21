@@ -71,19 +71,21 @@ const UserPost = ({ image_url, postId, fetchPost, caption, location }) => {
   };
 
   return (
-    <Box padding="8px">
-      <Img boxSize="230px" objectFit="cover" src={image_url} />
+    <Box padding="7px" pt="15px">
+      <Img boxSize="170px" objectFit="cover" src={image_url} />
       <Icon
         margin="5px"
         color="black"
         onClick={() => openDeleteModal(postId)}
         as={MdDelete}
+        boxSize={4}
       />
       <Icon
         margin="5px"
         color="black"
         onClick={() => openEditModal(postId)}
         as={FiEdit}
+        boxSize={4}
       />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

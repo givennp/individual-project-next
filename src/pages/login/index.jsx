@@ -55,6 +55,8 @@ const LoginPage = () => {
     formik.setFieldValue(name, value);
   };
 
+
+  
   useEffect(() => {
     if (userSelector.id) {
       router.push("/home");
@@ -69,47 +71,48 @@ const LoginPage = () => {
       padding="15px"
       color="black"
       w="400px"
+      mt="100px"
     >
       <Text marginBottom="8px" fontSize="32" fontWeight="bold" color="black">
         LOG IN
       </Text>
       <Stack>
-          <FormControl isInvalid={formik.errors.username}>
-            <FormLabel htmlFor="inputUsername">Username :</FormLabel>
-            <Input
-              onChange={inputHandler}
-              type="text"
-              id="inputUsername"
-              name="username"
-            />
-            <FormHelperText>{formik.errors.username}</FormHelperText>
-          </FormControl>
+        <FormControl isInvalid={formik.errors.username}>
+          <FormLabel htmlFor="inputUsername">Username :</FormLabel>
+          <Input
+            onChange={inputHandler}
+            type="text"
+            id="inputUsername"
+            name="username"
+          />
+          <FormHelperText>{formik.errors.username}</FormHelperText>
+        </FormControl>
       </Stack>
       <Box display="flex" marginBottom="20px">
-          <FormControl isInvalid={formik.errors.password}>
-            <FormLabel mt="4" htmlFor="inputPassword">
-              Password
-            </FormLabel>
-            <InputGroup>
-              <Input
-                type={passwordVisible ? "text" : "password"}
-                id="inputPassword"
-                onChange={inputHandler}
-                name="password"
-              />
-              <InputRightElement
-                children={
-                  <Icon
-                    fontSize="xl"
-                    onClick={() => setPasswordVisible(!passwordVisible)}
-                    as={passwordVisible ? IoMdEyeOff : IoMdEye}
-                    sx={{ _hover: { cursor: "pointer" } }}
-                  />
-                }
-              />
-            </InputGroup>
-            <FormHelperText>{formik.errors.password}</FormHelperText>
-          </FormControl>
+        <FormControl isInvalid={formik.errors.password}>
+          <FormLabel mt="4" htmlFor="inputPassword">
+            Password
+          </FormLabel>
+          <InputGroup>
+            <Input
+              type={passwordVisible ? "text" : "password"}
+              id="inputPassword"
+              onChange={inputHandler}
+              name="password"
+            />
+            <InputRightElement
+              children={
+                <Icon
+                  fontSize="xl"
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                  as={passwordVisible ? IoMdEyeOff : IoMdEye}
+                  sx={{ _hover: { cursor: "pointer" } }}
+                />
+              }
+            />
+          </InputGroup>
+          <FormHelperText>{formik.errors.password}</FormHelperText>
+        </FormControl>
       </Box>
       <Box display="flex" flexDirection="column">
         <Link href="/register">
@@ -125,7 +128,24 @@ const LoginPage = () => {
             Didn't have an account?
           </Text>
         </Link>
-        <Button colorScheme="green" onClick={formik.handleSubmit} disabled={formik.isSubmitting}>
+        <Link href="/forgotPassword">
+          <Text
+            width="fit-content"
+            marginBottom="8px"
+            color="#5c5c5c"
+            _hover={{
+              color: "black",
+              cursor: "pointer",
+            }}
+          >
+            Forgot your password?
+          </Text>
+        </Link>
+        <Button
+          colorScheme="green"
+          onClick={formik.handleSubmit}
+          disabled={formik.isSubmitting}
+        >
           Login
         </Button>
       </Box>

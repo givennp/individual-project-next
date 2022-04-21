@@ -61,10 +61,10 @@ const Navbar = () => {
       top="0"
       zIndex="9"
     >
-      <Box display="flex" fontSize="24px" fontWeight="medium" width="50%">
+      <Box display="flex" fontSize="16px" fontWeight="medium" width="50%">
         <Center>
           <Link
-            href="/home"
+            href="/"
             style={{
               display: "flex",
               alignitems: "center",
@@ -79,7 +79,7 @@ const Navbar = () => {
               <Icon
                 margin="15px"
                 as={GiCorn}
-                boxSize="30px"
+                boxSize="25px"
                 display="flex"
                 alignitem="center"
                 _hover={{
@@ -119,14 +119,15 @@ const Navbar = () => {
       </Box>
       <Box display="flex" flexDirection="row">
         <Center>
-          <Icon padding="3px" boxSize="9" as={AiOutlineSearch} />
-          <Icon padding="3px" boxSize="9" as={IoIosNotifications} />
-          <Icon padding="3px" boxSize="9" as={IoMdChatbubbles} />
+          <Icon padding="3px" boxSize="7" as={AiOutlineSearch} />
+          <Icon padding="3px" boxSize="7" as={IoIosNotifications} />
+          <Icon padding="3px" boxSize="7" as={IoMdChatbubbles} />
           {userSelector.id ? (
-            <Menu>
+            <Menu size="sm">
               <MenuButton>
                 <Avatar
                   marginLeft="20px"
+                  size="sm"
                   src={userSelector.avatar}
                   _hover={{
                     cursor: "pointer",
@@ -161,7 +162,7 @@ const Navbar = () => {
             marginLeft="15px"
             borderRadius="50px"
             backgroundColor="#217aff"
-            fontSize="20px"
+            fontSize="16px"
             fontWeight="bold"
             height="70%"
             onClick={() => uploadButton()}

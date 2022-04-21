@@ -37,7 +37,7 @@ const ContentCard = ({
   addLikeButton,
   like_status,
   removeLikeButton,
-  date
+  date,
 }) => {
   // const { username, location, caption, numberOfLikes, imageUrl } = props;
   const [comments, setComments] = useState([]);
@@ -55,7 +55,7 @@ const ContentCard = ({
         post_id: id,
         _limit: 5,
         _sortBy: "id",
-        _sortDir: "DESC"
+        _sortDir: "DESC",
       },
     });
 
@@ -98,7 +98,7 @@ const ContentCard = ({
       <Box
         borderWidth="1px 0px 0px 0px"
         borderColor="grey"
-        maxW="700"
+        maxW="500"
         padding="2"
         marginBottom="10px"
         backgroundColor="black"
@@ -113,7 +113,7 @@ const ContentCard = ({
             <Image
               borderRadius="5px"
               src={profile_picture}
-              boxSize="50px"
+              boxSize="40px"
               objectFit="cover"
               sx={{
                 _hover: {
@@ -123,7 +123,7 @@ const ContentCard = ({
             />
           </Link>
           <Box marginLeft="2">
-            <Text fontSize="md" fontWeight="bold" color="white">
+            <Text fontSize="sm" fontWeight="bold" color="white">
               {username}
             </Text>
             <Text fontSize="sm" color="GrayText">
@@ -134,7 +134,7 @@ const ContentCard = ({
         <Box paddingX="3" paddingY="10px">
           <Text
             display="inline"
-            fontSize="32px"
+            fontSize="24px"
             fontWeight="bold"
             color="white"
           >
@@ -164,7 +164,7 @@ const ContentCard = ({
           <Box display="flex">
             {likeStatus ? (
               <Box
-                width="120px"
+                width="100px"
                 padding="2"
                 backgroundColor="white"
                 border="1px solid white"
@@ -178,11 +178,12 @@ const ContentCard = ({
                 sx={{
                   _hover: {
                     cursor: "pointer",
+                    backgroundColor: "grey",
                   },
                 }}
               >
                 <Center>
-                  <Icon color="black" boxSize={6} as={FaArrowUp} />
+                  <Icon color="black" boxSize={4} as={FaArrowUp} />
                   <Text color="black" marginLeft="8px">
                     {numberOfLikes?.toLocaleString()}
                   </Text>
@@ -190,7 +191,7 @@ const ContentCard = ({
               </Box>
             ) : (
               <Box
-                width="120px"
+                width="100px"
                 padding="2"
                 backgroundColor="black"
                 border="1px solid white"
@@ -208,38 +209,15 @@ const ContentCard = ({
                 }}
               >
                 <Center>
-                  <Icon color="white" boxSize={6} as={FaArrowUp} />
+                  <Icon color="white" boxSize={5} as={FaArrowUp} />
                   <Text color="white" marginLeft="8px">
                     {numberOfLikes?.toLocaleString()}
                   </Text>
                 </Center>
               </Box>
             )}
-
             <Box
-              width="120px"
-              padding="2"
-              backgroundColor="black"
-              border="1px solid white"
-              marginLeft="2"
-              display="flex"
-              justifyContent="center"
-              borderRadius="4px"
-              sx={{
-                _hover: {
-                  cursor: "pointer",
-                },
-              }}
-            >
-              <Center>
-                <Icon color="white" boxSize={6} as={FaArrowDown} />
-                <Text color="white" marginLeft="8px">
-                  {dislike_count.toLocaleString()}
-                </Text>
-              </Center>
-            </Box>
-            <Box
-              width="120px"
+              width="100px"
               padding="2"
               backgroundColor="black"
               border="1px solid white"
@@ -261,7 +239,7 @@ const ContentCard = ({
               </Center>
             </Box>
           </Box>
-          <Text fontSize="md" color="GrayText">
+          <Text fontSize="sm" color="GrayText">
             {date}
           </Text>
         </Box>
@@ -270,7 +248,7 @@ const ContentCard = ({
         <Box paddingX="3" marginTop="4">
           {/* Comment Input */}
           {displayCommentInput ? (
-            <Box display="flex" color="white">
+            <Box display="flex" color="white" fontSize="16px">
               <Input
                 onChange={handleCommentInput}
                 marginBottom="2"
@@ -289,7 +267,7 @@ const ContentCard = ({
             </Box>
           ) : null}
           <Box
-            fontWeight="bold"
+            fontWeight="semibold"
             decoration="underline"
             color="white"
             padding="2"
@@ -297,10 +275,12 @@ const ContentCard = ({
               cursor: "pointer",
             }}
             width="fit-content"
+            fontSize="sm"
           >
             <Text
               onClick={() => setToggleComment(!toggleComment)}
               textDecoration="underline"
+              
             >
               Comments
             </Text>

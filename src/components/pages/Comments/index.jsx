@@ -37,12 +37,13 @@ const MyComments = () => {
     return userComments.map((comment) => {
       return (
         <Flex
-          p={8}
+          p={5}
+          margin="5px"
           maxW="800px"
           justifyContent="space-between"
           borderBottom="1px solid black"
         >
-          <Text maxW="400px" fontSize="24px">
+          <Text maxW="400px" fontSize="20px">
             {comment.content}
           </Text>
           <Spacer/>

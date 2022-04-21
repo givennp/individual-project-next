@@ -93,8 +93,9 @@ const RegisterPage = () => {
       borderRadius="10px"
       marginBottom="20px"
       padding="15px"
+      mt="80px"
     >
-      <Text marginBottom="8px" fontSize="32" fontWeight="bold">
+      <Text marginBottom="8px" fontSize="32px" fontWeight="bold">
         SIGN UP
       </Text>
       <Box display="flex" marginBottom="8px">

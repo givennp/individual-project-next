@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import ContentCard from "../components/ContentCard";
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import axiosInstance from "../configs/api";
 
@@ -95,8 +95,9 @@ const HomePage = () => {
   }, []);
 
   return (
+    
     <Box paddingY="8" left="0" right="0">
-      {renderContentList()}
+      {userSelector.id? renderContentList() : <Text>PLEASE LOGIN</Text>}
     </Box>
   );
 };
