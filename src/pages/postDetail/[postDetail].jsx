@@ -26,20 +26,21 @@ import {
   FacebookShareButton,
   TwitterIcon,
   TwitterShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
 } from "react-share";
 import { WEB_URL } from "../../configs/url";
 import Page from "../../components/page";
-import {BiCopy} from "react-icons/bi"
+import { BiCopy } from "react-icons/bi";
 
 const postDetailPage = ({ postDetailData }) => {
   const [comment, setComment] = useState([]);
   const [page, setPage] = useState(1);
+  let commentsCount;
 
   const router = useRouter();
 
-  const toast = useToast()
-
-  
+  const toast = useToast();
 
   const fetchComments = async () => {
     try {
@@ -52,6 +53,7 @@ const postDetailPage = ({ postDetailData }) => {
       });
 
       setComment([...comment, ...res.data.result.rows]);
+      commentsCount = res.data.result.count;
     } catch (err) {
       console.log(err);
     }
@@ -67,7 +69,7 @@ const postDetailPage = ({ postDetailData }) => {
 
   const copyLinkBtnHandler = () => {
     navigator.clipboard.writeText(
-      `https://yellow-otter-20.loca.lt${router.asPath}`
+      `https://wet-bullfrog-71.loca.lt${router.asPath}`
     );
 
     toast({
@@ -102,11 +104,15 @@ const postDetailPage = ({ postDetailData }) => {
       image={postDetailData?.image_url}
       url={`${WEB_URL}${router.asPath}`}
     >
-      <Box bg="black" color="white">
+      <Box bg="black" color="white" shadow="dark-lg" mt="40px">
         <Flex p="10px">
           <Box>
             <Flex>
-              <Img boxSize={10} src={postDetailData?.post_user?.avatar} />
+              <Img boxSize="50px" src={postDetailData?.post_user?.avatar} />
+              <Box>
+                <Text ml="5px">{postDetailData.post_user.username}</Text>
+                <Text ml="5px">{postDetailData.location}</Text>
+              </Box>
               <Spacer />
             </Flex>
             <Text fontSize="24px" fontWeight="bold" my="10px">
@@ -123,7 +129,7 @@ const postDetailPage = ({ postDetailData }) => {
               mb="30px"
               textAlign="center"
             >
-              Comments
+              Comments ({`${commentsCount ? commentsCount : 0}`})
             </Text>
             <Box
               height="420px"
@@ -150,16 +156,22 @@ const postDetailPage = ({ postDetailData }) => {
           <Stack m={2} direction="row">
             <FacebookShareButton
               url={`${WEB_URL}${router.asPath}`}
-              quote={`Cek ${postDetailData?.caption}!`}
+              quote={`${postDetailData?.caption}`}
             >
               <FacebookIcon size={40} round />
             </FacebookShareButton>
             <TwitterShareButton
-              title={`Beli ${postDetailData?.caption}!`}
+              title={`${postDetailData?.caption}`}
               url={`${WEB_URL}${router.asPath}`}
             >
               <TwitterIcon size={40} round />
             </TwitterShareButton>
+            <WhatsappShareButton
+              title={`${postDetailData.caption}`}
+              url={`https://wet-bullfrog-71.loca.lt${router.asPath}`}
+            >
+              <WhatsappIcon size={40} round />
+            </WhatsappShareButton>
             <IconButton
               onClick={copyLinkBtnHandler}
               borderRadius="50%"
@@ -193,8 +205,6 @@ export const getServerSideProps = async (context) => {
         // Comments: res.data.result.rows[0].Comments,
       },
     };
-
-
   } catch (err) {
     console.log(err);
     return {

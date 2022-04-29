@@ -47,8 +47,6 @@ const forgotPasswordPage = () => {
           email : values.email
           
         })
-        
-        console.log(values.email);
 
         formik.setSubmitting(false)
 

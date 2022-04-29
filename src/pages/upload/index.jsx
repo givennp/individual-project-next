@@ -48,7 +48,7 @@ const Upload = () => {
   const uploadContentHandler = async () => {
     // Proteksi jika file belum dipilih
     if (!selectedFile) {
-      alert("Anda belum pilih file");
+      alert("please choose a photo");
       return;
     }
 

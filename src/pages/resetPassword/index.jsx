@@ -99,6 +99,7 @@ const resetPasswordPage = () => {
       padding="15px"
       color="black"
       w="500px"
+      mt="100px"
     >
       <Text marginBottom="8px" fontSize="32" fontWeight="bold" color="black">
         Please input your password

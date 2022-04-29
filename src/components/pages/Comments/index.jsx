@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axiosInstance from "../../../configs/api";
 
-const MyComments = () => {
+const MyComments = ({ userId }) => {
   const [userComments, setUserComments] = useState([]);
   const userSelector = useSelector((state) => state.auth);
 
@@ -20,7 +20,7 @@ const MyComments = () => {
     try {
       const res = await axiosInstance.get("/comments", {
         params: {
-          user_id: userSelector.id,
+          user_id: userId,
         },
       });
       setUserComments(res.data.result.rows);
@@ -46,7 +46,7 @@ const MyComments = () => {
           <Text maxW="400px" fontSize="20px">
             {comment.content}
           </Text>
-          <Spacer/>
+          <Spacer />
           <Img
             src={comment?.Post?.image_url}
             boxSize="100px"

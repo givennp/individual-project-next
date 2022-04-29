@@ -27,7 +27,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import UserPost from "../../UserPost";
 
-const MyPost = () => {
+const MyPost = ({userId}) => {
   const [userPost, setUserPost] = useState([]);
   const userSelector = useSelector((state) => state.auth);
 
@@ -35,13 +35,14 @@ const MyPost = () => {
     try {
       const res = await axiosInstance.get("/posts", {
         params: {
-          user_id: userSelector.id,
+          user_id: userId,
           _sortBy: "id",
           _sortDir: "DESC",
         },
       });
 
       setUserPost(res.data.result.rows);
+      console.log(res.data.result.rows);
     } catch (err) {
       console.log(err);
     }
@@ -65,7 +66,7 @@ const MyPost = () => {
           caption={val.caption}
           location={val.location}
           postId={val?.id}
-          key={val?.id?.toString()}
+          userId={val.post_user.id}
         />
       );
     });

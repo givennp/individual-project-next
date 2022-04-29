@@ -22,11 +22,13 @@ import { FiEdit } from "react-icons/fi";
 import axiosInstance from "../configs/api";
 import { useState } from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup"
+import * as Yup from "yup";
 
-const UserPost = ({ image_url, postId, fetchPost, caption, location }) => {
+const UserPost = ({ image_url, postId, fetchPost, caption, location, userId }) => {
   const [editPostId, setEditPostId] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const userSelector = useSelector((state) => state.auth);
 
   const {
     isOpen: isOpenEdit,
@@ -34,26 +36,26 @@ const UserPost = ({ image_url, postId, fetchPost, caption, location }) => {
     onClose: onCloseEdit,
   } = useDisclosure();
 
-    const formik = useFormik({
-      initialValues: {
-        newCaption: "",
-        newLocation: "",
-      },
-      validationSchema: Yup.object().shape({
-        newCaption: Yup.string().max(70),
-        newLocation: Yup.string().max(20),
-      }),
-      validateOnChange: false,
-      onSubmit: async (values) => {
-        const editedPost = {
-          caption: values.newCaption,
-          location: values.newLocation,
-        };
-        await axiosInstance.patch(`/posts/${editPostId}`, editedPost);
-        formik.setSubmitting(false);
-        onCloseEdit();
-      },
-    });
+  const formik = useFormik({
+    initialValues: {
+      newCaption: "",
+      newLocation: "",
+    },
+    validationSchema: Yup.object().shape({
+      newCaption: Yup.string().max(70),
+      newLocation: Yup.string().max(20),
+    }),
+    validateOnChange: false,
+    onSubmit: async (values) => {
+      const editedPost = {
+        caption: values.newCaption || caption ,
+        location: values.newLocation || location,
+      };
+      await axiosInstance.patch(`/posts/${editPostId}`, editedPost);
+      formik.setSubmitting(false);
+      onCloseEdit();
+    },
+  });
 
   const openEditModal = (postId) => {
     onOpenEdit();
@@ -66,27 +68,32 @@ const UserPost = ({ image_url, postId, fetchPost, caption, location }) => {
   };
   const deletePost = async (postId) => {
     await axiosInstance.delete(`/posts/${postId}`);
-    onClose()
-    fetchPost()
+    onClose();
+    fetchPost();
   };
 
   return (
     <Box padding="7px" pt="15px">
       <Img boxSize="170px" objectFit="cover" src={image_url} />
-      <Icon
-        margin="5px"
-        color="black"
-        onClick={() => openDeleteModal(postId)}
-        as={MdDelete}
-        boxSize={4}
-      />
-      <Icon
-        margin="5px"
-        color="black"
-        onClick={() => openEditModal(postId)}
-        as={FiEdit}
-        boxSize={4}
-      />
+      {userId === userSelector.id? (
+        <>
+          <Icon
+            margin="5px"
+            color="black"
+            onClick={() => openDeleteModal(postId)}
+            as={MdDelete}
+            boxSize={4}
+          />
+          <Icon
+            margin="5px"
+            color="black"
+            onClick={() => openEditModal(postId)}
+            as={FiEdit}
+            boxSize={4}
+          />
+        </>
+      ) : null}
+
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

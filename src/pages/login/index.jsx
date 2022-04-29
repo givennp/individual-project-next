@@ -59,7 +59,7 @@ const LoginPage = () => {
   
   useEffect(() => {
     if (userSelector.id) {
-      router.push("/home");
+      router.push("/");
     }
   }, [userSelector.id]);
 

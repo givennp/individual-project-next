@@ -9,6 +9,8 @@ import {
   Input,
   Center,
   TagLabel,
+  FormControl,
+  FormHelperText,
 } from "@chakra-ui/react";
 import {
   FaRegHeart,
@@ -21,6 +23,8 @@ import axiosInstance from "../../configs/api";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import requiresAuth from "../requiresAuth";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const ContentCard = ({
   username,
@@ -44,10 +48,38 @@ const ContentCard = ({
   const [commentInput, setCommentInput] = useState("");
   const [toggleComment, setToggleComment] = useState(false);
   const [likeStatus, setLikeStatus] = useState(like_status);
+  const [commentCount, setCommentCount] = useState(0)
 
   const [displayCommentInput, setDisplayCommentInput] = useState(false);
 
   const userSelector = useSelector((state) => state.auth);
+
+  const formik = useFormik({
+    initialValues: {
+      content: "",
+    },
+    validationSchema: Yup.object().shape({
+      content: Yup.string().max(300).required("please insert a new comment"),
+    }),
+    validateOnChange: false,
+    onSubmit: async (values) => {
+      try {
+        const newComment = {
+          user_id: userSelector.id,
+          content: values.content,
+          post_id: id,
+        };
+        await axiosInstance.post(`/comments`, newComment);
+        formik.setSubmitting(false);
+        fetchComments();
+        // fetchContentList();
+        setCommentCount(commentCount + 1)
+        setDisplayCommentInput(false);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  });
 
   const fetchComments = async () => {
     const res = await axiosInstance.get(`/comments`, {
@@ -60,34 +92,41 @@ const ContentCard = ({
     });
 
     setComments(res.data.result.rows);
+    setCommentCount(res.data.result.count);
   };
 
   const renderComments = () => {
     return comments.map((val) => {
-      return <Comment content={val?.content} username={val?.User?.username} />;
+      return (
+        <Comment
+          content={val?.content}
+          username={val?.User?.username}
+        />
+        
+      );
     });
   };
 
-  const handleCommentInput = (event) => {
-    const { value } = event.target;
+  // const handleCommentInput = (event) => {
+  //   const { value } = event.target;
 
-    setCommentInput(value);
-  };
+  //   setCommentInput(value);
+  // };
 
-  const postNewComment = async () => {
-    const newData = {
-      user_id: userSelector.id,
-      content: commentInput,
-      post_id: id,
-    };
+  // const postNewComment = async () => {
+  //   const newData = {
+  //     user_id: userSelector.id,
+  //     content: commentInput,
+  //     post_id: id,
+  //   };
 
-    await axiosInstance.post("/comments", newData);
+  //   await axiosInstance.post("/comments", newData);
 
-    fetchComments();
-    fetchContentList();
+  //   fetchComments();
+  //   fetchContentList();
 
-    setDisplayCommentInput(false);
-  };
+  //   setDisplayCommentInput(false);
+  // };
 
   useEffect(() => {
     fetchComments();
@@ -98,10 +137,12 @@ const ContentCard = ({
       <Box
         borderWidth="1px 0px 0px 0px"
         borderColor="grey"
-        maxW="500"
+        maxW="500px"
         padding="2"
-        marginBottom="10px"
-        backgroundColor="black"
+        marginBottom="20px"
+        marginX="100px"
+        bg="black"
+        shadow="dark-lg"
       >
         {/* Card Header */}
         <Box padding="3" paddingBottom="2" display="flex" alignItems="center">
@@ -149,7 +190,7 @@ const ContentCard = ({
             `/postDetail/${id}`
           }
         >
-          <Image minW="100%" src={imageUrl} />
+          <Image minW="100%" maxH="600px" objectFit="cover" src={imageUrl} />
         </Link>
 
         {/* Action Buttons */}
@@ -234,7 +275,7 @@ const ContentCard = ({
               <Center>
                 <Icon boxSize={5} as={FaCommentAlt} color="white" />
                 <Text color="white" marginLeft="8px">
-                  {comment_count?.toLocaleString()}
+                  {commentCount.toLocaleString()}
                 </Text>
               </Center>
             </Box>
@@ -249,18 +290,26 @@ const ContentCard = ({
           {/* Comment Input */}
           {displayCommentInput ? (
             <Box display="flex" color="white" fontSize="16px">
-              <Input
-                onChange={handleCommentInput}
-                marginBottom="2"
-                type="text"
-                placeholder="Insert a new comment"
-                marginRight="4"
-              />
+              <FormControl isInvalid={formik.errors.content}>
+                <Input
+                  onChange={
+                    (event) => formik.setFieldValue("content", event.target.value)
+                  // handleCommentInput
+                  }
+                  type="text"
+                  placeholder="write a comment here"
+                />
+                <FormHelperText m="0px" ml="5px">{formik.errors.content}</FormHelperText>
+              </FormControl>
               <Button
-                onClick={postNewComment}
+                onClick={
+                  formik.handleSubmit
+                  // postNewComment
+                }
                 backgroundColor="black"
                 color="white"
                 border="1px solid white"
+                ml="10px"
               >
                 Post
               </Button>
@@ -280,7 +329,6 @@ const ContentCard = ({
             <Text
               onClick={() => setToggleComment(!toggleComment)}
               textDecoration="underline"
-              
             >
               Comments
             </Text>

@@ -36,6 +36,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
 import axiosInstance from "../../configs/api";
+import LikedPost from "../../components/pages/Upvotes";
 
 // 1. Bikin component untuk setiap tab
 // 2. Beri nama state untuk setiap tab
@@ -43,10 +44,10 @@ import axiosInstance from "../../configs/api";
 
 const MyProfilePage = () => {
   const userSelector = useSelector((state) => state.auth);
-  console.log(userSelector);
   const [menuTab, setMenuTab] = useState("bio");
   const [selectedFile, setSelectedFile] = useState(null);
   const [userData, setUserData] = useState({});
+  const [newBio, setNewBio] = useState("")
 
   const router = useRouter();
 
@@ -85,6 +86,7 @@ const MyProfilePage = () => {
           editedUser
         );
         // console.log(test);
+        setNewBio(values.newBio)
         formik.setSubmitting(false);
         onClose();
       } catch (err) {
@@ -127,11 +129,19 @@ const MyProfilePage = () => {
 
   const renderTabContent = () => {
     if (menuTab === "bio") {
-      return <RenderBio />;
+      return <RenderBio key={userSelector.id?.toString()} />;
     } else if (menuTab === "posts") {
-      return <MyPost />;
+      return (
+        <MyPost userId={userSelector.id} />
+      );
     } else if (menuTab === "comments") {
-      return <MyComments />;
+      return (
+        <MyComments userId={userSelector.id}/>
+      );
+    } else if (menuTab === "likedPost") {
+      return (
+        <LikedPost userId={userSelector.id}/>
+      );
     }
   };
 
@@ -257,7 +267,9 @@ const MyProfilePage = () => {
               <ModalFooter>
                 <Button
                   colorScheme="green"
-                  onClick={formik.handleSubmit}
+                  onClick={() => {formik.handleSubmit()
+                  router.reload(window.location.pathname)
+                  }}
                   type="submit"
                   margin={3}
                 >
@@ -320,17 +332,9 @@ const MyProfilePage = () => {
               color: "grey",
               cursor: "pointer",
             }}
+            onClick={() => setMenuTab("likedPost")}
           >
             Upvotes
-          </Text>
-          <Text
-            margin="15px"
-            _hover={{
-              color: "grey",
-              cursor: "pointer",
-            }}
-          >
-            Saved
           </Text>
         </Box>
         <Box margin="15px">

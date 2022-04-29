@@ -15,6 +15,9 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../configs/api";
 import { useRouter } from "next/router";
 import requiresAuth from "../../components/requiresAuth";
+import LikedPost from "../../components/pages/Upvotes";
+import MyComments from "../../components/pages/Comments";
+import MyPost from "../../components/pages/Posts";
 
 const ProfilePage = ({ userProfileData }) => {
   const [userData, setUserData] = useState([]);
@@ -26,9 +29,9 @@ const ProfilePage = ({ userProfileData }) => {
     try {
       const res = await axiosInstance.get("/posts", {
         params: {
-          userId: router.query.profile,
+          user_id: router.query.profile,
           _sortBy: "id",
-          _sortDir: "DESC"
+          _sortDir: "DESC",
         },
       });
 
@@ -55,17 +58,20 @@ const ProfilePage = ({ userProfileData }) => {
 
   const renderTabContent = () => {
     if (menuTab === "bio") {
-      return <Text margin="10px 5 px" fontSize="24px">
-        {userProfileData.bio}
-        </Text>;
-    }
-
-    if (menuTab === "post") {
-      return renderUserPost();
+      return (
+        <Text padding="20px" fontSize="24px">
+          {userProfileData.bio}
+        </Text>
+      );
+    } else if (menuTab === "post") {
+      return <MyPost userId={router.query.profile}/>;
+    } else if (menuTab === "likedPost") {
+      return <LikedPost userId={router.query.profile} />;
+    } else if (menuTab === "comments") {
+      return <MyComments userId={router.query.profile}/>
     }
   };
 
-  
   useEffect(() => {
     fetchUserPost();
   }, []);
@@ -130,6 +136,7 @@ const ProfilePage = ({ userProfileData }) => {
               cursor: "pointer",
               color: "#a6a6a6",
             }}
+            onClick={() => setMenuTab("comments")}
           >
             Comments
           </Text>
@@ -140,18 +147,9 @@ const ProfilePage = ({ userProfileData }) => {
               cursor: "pointer",
               color: "#a6a6a6",
             }}
+            onClick={() => setMenuTab("likedPost")}
           >
             Upvotes
-          </Text>
-          <Text
-            margin="15px"
-            _hover={{
-              color: "white",
-              cursor: "pointer",
-              color: "#a6a6a6",
-            }}
-          >
-            Saved
           </Text>
         </Box>
         <Box margin="15px">
@@ -173,17 +171,15 @@ const ProfilePage = ({ userProfileData }) => {
   );
 };
 
-export const getServerSideProps = requiresAuth( async (context) => {
+export const getServerSideProps = requiresAuth(async (context) => {
   // Dapetin route params
   // Fetch user profile based on ID dari route params
   // passing data lewat props
-        const res = await axiosInstance.get(`/users/${context.query.profile}`);
-
-        
+  const res = await axiosInstance.get(`/users/${context.query.profile}`);
 
   return {
     props: {
-      userProfileData: res.data.result
+      userProfileData: res.data.result,
     },
   };
 });
