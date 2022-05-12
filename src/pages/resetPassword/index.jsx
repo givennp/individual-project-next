@@ -25,6 +25,7 @@ import * as Yup from "yup";
 import { userLogin } from "../../redux/actions/auth";
 import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 import axiosInstance from "../../configs/api";
+import {BsFillCheckCircleFill} from "react-icons/bs"
 
 const resetPasswordPage = () => {
   const [showPass, setShowPass] = useState(false);

@@ -8,7 +8,8 @@ const initial_state = {
   bio: "",
   avatar: "",
   full_name: "",
-  is_verified: false
+  is_verified: false,
+  err_message: ""
 };
 
 export const userReducer = (state = initial_state, action) => {
@@ -21,11 +22,15 @@ export const userReducer = (state = initial_state, action) => {
             bio: action.payload.bio,
             avatar: action.payload.avatar,
             full_name: action.payload.full_name,
-            errorMsg: "",
             is_verified: action.payload.is_verified
         }
     } else if (action.type === user_types.LOGOUT_USER){
         return initial_state
+    } else if (action.type === user_types.INVALID_USER){
+        return {
+            ...state,
+            err_message: action.payload
+        }
     }
     return state
 }

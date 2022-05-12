@@ -36,7 +36,8 @@ import { BiCopy } from "react-icons/bi";
 const postDetailPage = ({ postDetailData }) => {
   const [comment, setComment] = useState([]);
   const [page, setPage] = useState(1);
-  let commentsCount;
+  const [commentsCount, setCommentsCount] = useState(0);
+
 
   const router = useRouter();
 
@@ -53,7 +54,7 @@ const postDetailPage = ({ postDetailData }) => {
       });
 
       setComment([...comment, ...res.data.result.rows]);
-      commentsCount = res.data.result.count;
+      setCommentsCount(res.data.result.count)
     } catch (err) {
       console.log(err);
     }
@@ -69,7 +70,7 @@ const postDetailPage = ({ postDetailData }) => {
 
   const copyLinkBtnHandler = () => {
     navigator.clipboard.writeText(
-      `https://wet-bullfrog-71.loca.lt${router.asPath}`
+      `https://many-worlds-beam-180-254-66-68.loca.lt${router.asPath}`
     );
 
     toast({
@@ -107,21 +108,28 @@ const postDetailPage = ({ postDetailData }) => {
       <Box bg="black" color="white" shadow="dark-lg" mt="40px">
         <Flex p="10px">
           <Box>
-            <Flex>
-              <Img boxSize="50px" src={postDetailData?.post_user?.avatar} />
+            <Flex padding="2">
+              <Img
+                borderRadius="5px"
+                boxSize="50px"
+                src={postDetailData?.post_user?.avatar}
+                objectFit="cover"
+              />
               <Box>
-                <Text ml="5px">{postDetailData.post_user.username}</Text>
-                <Text ml="5px">{postDetailData.location}</Text>
+                <Text ml="10px" fontSize="18px" fontWeight="semibold">
+                  {postDetailData.post_user.username}
+                </Text>
+                <Text ml="10px" color="grey.300">{postDetailData.location}</Text>
               </Box>
               <Spacer />
             </Flex>
-            <Text fontSize="24px" fontWeight="bold" my="10px">
+            <Text fontSize="24px" fontWeight="bold" my="10px" ml="10px">
               {postDetailData?.caption}
             </Text>
 
             <Img maxW="600px" minW="400px" src={postDetailData?.image_url} />
           </Box>
-          <Box pl="10px">
+          <Box pl="10px" height="500px" width="fit-content">
             <Text
               fontSize="24px"
               fontWeight="bold"
@@ -133,12 +141,12 @@ const postDetailPage = ({ postDetailData }) => {
             </Text>
             <Box
               height="420px"
-              width="225px"
+              width="250px"
               overflowY={comment.length > 6 ? "scroll" : "none"}
             >
               {renderComments()}
             </Box>
-            {comment.length > 3 ? (
+            {commentsCount > 3 ? (
               <Text
                 onClick={fetchNextComments}
                 sx={{

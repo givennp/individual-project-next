@@ -14,6 +14,7 @@ import {
   InputRightElement,
   Icon,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import user_types from "../../redux/reducers/types/user";
 import { useRouter } from "next/dist/client/router";
@@ -22,7 +23,7 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { userLogin } from "../../redux/actions/auth";
-import { IoMdEyeOff, IoMdEye } from "react-icons/io";
+import { BsFillCheckCircleFill } from "react-icons/bs";
 import axiosInstance from "../../configs/api";
 
 const forgotPasswordPage = () => {
@@ -30,6 +31,8 @@ const forgotPasswordPage = () => {
   const router = useRouter();
 
   const userSelector = useSelector((state) => state.auth);
+
+  const toast = useToast()
 
   const formik = useFormik({
     initialValues: {
@@ -50,8 +53,42 @@ const forgotPasswordPage = () => {
 
         formik.setSubmitting(false)
 
+        toast({
+          position: "bottom",
+          render: () => (
+            <Box color="white" bg="green" borderRadius="5px" p={3}>
+              <Text background="green">email sent!</Text>
+              <Text backgroundColor="green">
+                please check your email{" "}
+                <Icon
+                  backgroundColor="green"
+                  color="white"
+                  as={BsFillCheckCircleFill}
+                />{" "}
+              </Text>
+            </Box>
+          ),
+        });
+
       } catch (err) {
         console.log(err);
+        toast({
+          position: "bottom",
+          render: () => (
+            <Box color="white" bg="red.500" borderRadius="5px" p={3}>
+              <Text background="red.500">Email not found</Text>
+              <Text backgroundColor="red.500">
+                please use your registered email{" "}
+                <Icon
+                  backgroundColor="red.500"
+                  color="white"
+                  as={BsFillCheckCircleFill}
+                />{" "}
+              </Text>
+            </Box>
+          ),
+        });
+
       }
     },
   });

@@ -14,6 +14,7 @@ import {
   InputRightElement,
   Icon,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import user_types from "../../redux/reducers/types/user";
 import { useRouter } from "next/dist/client/router";
@@ -23,6 +24,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { userLogin } from "../../redux/actions/auth";
 import {IoMdEyeOff, IoMdEye} from "react-icons/io"
+import {ImCross} from "react-icons/im"
 
 const LoginPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -31,6 +33,8 @@ const LoginPage = () => {
   const userSelector = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
+
+  const toast = useToast()
 
   const formik = useFormik({
     initialValues: {
@@ -63,6 +67,28 @@ const LoginPage = () => {
     }
   }, [userSelector.id]);
 
+  useEffect(() => {
+    if (userSelector.err_message) {
+      toast({
+        position: "bottom",
+        render: () => (
+          <Box
+            color="white"
+            p={3}
+            bg="red.500"
+            display="flex"
+            borderRadius="5px"
+            shadow="lg"
+            alignItems="center"
+            w="fit-content"
+          >
+            {userSelector.err_message} <Icon bg="inherit" as={ImCross} ml={3} />
+          </Box>
+        ),
+      });
+    }
+  }, [userSelector.err_message]);
+
   return (
     <Box
       border="1px solid black"
@@ -77,19 +103,19 @@ const LoginPage = () => {
         LOG IN
       </Text>
       <Stack>
-        <FormControl isInvalid={formik.errors.username}>
-          <FormLabel htmlFor="inputUsername">Username :</FormLabel>
+        <FormControl isInvalid={userSelector.err_message}>
+          <FormLabel htmlFor="inputUsername">Username/Email :</FormLabel>
           <Input
             onChange={inputHandler}
             type="text"
             id="inputUsername"
             name="username"
           />
-          <FormHelperText>{formik.errors.username}</FormHelperText>
+          <FormHelperText>{userSelector.err_message}</FormHelperText>
         </FormControl>
       </Stack>
       <Box display="flex" marginBottom="20px">
-        <FormControl isInvalid={formik.errors.password}>
+        <FormControl isInvalid={userSelector.err_message}>
           <FormLabel mt="4" htmlFor="inputPassword">
             Password
           </FormLabel>
@@ -111,7 +137,7 @@ const LoginPage = () => {
               }
             />
           </InputGroup>
-          <FormHelperText>{formik.errors.password}</FormHelperText>
+          <FormHelperText>{userSelector.err_message}</FormHelperText>
         </FormControl>
       </Box>
       <Box display="flex" flexDirection="column">

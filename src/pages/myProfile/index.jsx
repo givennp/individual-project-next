@@ -91,6 +91,18 @@ const MyProfilePage = () => {
         onClose();
       } catch (err) {
         console.log(err);
+        toast({
+          position: "bottom",
+          render: () => (
+            <Box color="white" bg="red.500" borderRadius="5px" p={3}>
+              <Text background="red.500">Edit Profile Failed</Text>
+              <Text backgroundColor="red.500">
+                username already taken{" "}
+                <Icon backgroundColor="red.500" color="white" as={ImCross} />{" "}
+              </Text>
+            </Box>
+          ),
+        });
       }
     },
   });

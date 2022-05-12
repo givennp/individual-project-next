@@ -25,9 +25,11 @@ import * as Yup from "yup";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import Router from "next/router";
 import { IoMdEyeOff, IoMdEye } from "react-icons/io";
+import { ImCross } from "react-icons/im"
+
 const RegisterPage = () => {
-  const[showPass, setShowPass] = useState(false)
-  const[showConfirmPass, setShowConfirmPass] = useState(false)
+  const [showPass, setShowPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
 
   const router = useRouter();
 
@@ -39,7 +41,7 @@ const RegisterPage = () => {
       username: "",
       fullname: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
     },
     validationSchema: Yup.object().shape({
       email: Yup.string()
@@ -50,38 +52,62 @@ const RegisterPage = () => {
         .max(15, "max length of username is 15")
         .required("this field is required"),
       fullname: Yup.string(),
-      password: Yup.string().required().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, "your password must contain atleast 8 characters, one uppercase, one lowercase, one number, and one special case character"),
-      confirmPassword: Yup.string().required("please confirm your password").oneOf([Yup.ref("password"), null], "your password does not match")
+      password: Yup.string()
+        .required()
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+          "your password must contain atleast 8 characters, one uppercase, one lowercase, one number, and one special case character"
+        ),
+      confirmPassword: Yup.string()
+        .required("please confirm your password")
+        .oneOf([Yup.ref("password"), null], "your password does not match"),
     }),
     validateOnChange: false,
     onSubmit: async (values) => {
-      const newUser = {
-        email: values.email,
-        username: values.username,
-        full_name: values.fullname,
-        password: values.password,
-      };
-      await axiosInstance.post("/auth/register", newUser);
-      formik.setSubmitting(false);
-      Router.push("/login");
-      toast({
-        position: "bottom",
-        render: () => (
-          <Box color="white" bg="green" borderRadius="5px" p={3}>
-            <Text background="green">Sign Up Success</Text>
-            <Text backgroundColor="green">
-              Now you can use your new account{" "}
-              <Icon
-                backgroundColor="green"
-                color="green"
-                as={BsFillCheckCircleFill}
-              />{" "}
-            </Text>
-          </Box>
-        ),
-      });
+      try {
+        const newUser = {
+          email: values.email,
+          username: values.username,
+          full_name: values.fullname,
+          password: values.password,
+        };
+        await axiosInstance.post("/auth/register", newUser);
+        formik.setSubmitting(false);
+        Router.push("/login");
+        toast({
+          position: "bottom",
+          render: () => (
+            <Box color="white" bg="green" borderRadius="5px" p={3}>
+              <Text background="green">Sign Up Success</Text>
+              <Text backgroundColor="green">
+                we have sent you a verification link. please check your email{" "}
+                <Icon
+                  backgroundColor="green"
+                  color="green"
+                  as={BsFillCheckCircleFill}
+                />{" "}
+              </Text>
+            </Box>
+          ),
+        });
+      } catch (err) {
+        console.log(err);
+        toast({
+          position: "bottom",
+          render: () => (
+            <Box color="white" bg="red.500" borderRadius="5px" p={3}>
+              <Text background="red.500">Sign Up Failed</Text>
+              <Text backgroundColor="red.500">
+                username or email already taken{" "}
+                <Icon backgroundColor="red.500" color="white" as={ImCross} />{" "}
+              </Text>
+            </Box>
+          ),
+        });
+      }
     },
   });
+
 
   //   const inputHandler = (event) => {
   //       formik.setFieldValue(name,value)
@@ -134,7 +160,7 @@ const RegisterPage = () => {
       </Box>
       <Box display="flex" marginBottom="8px">
         <Center>
-          <FormControl isInvalid={formik.errors.username}>
+          <FormControl isInvalid={formik.errors.email}>
             <Text>email :</Text>
             <Input
               onChange={(event) =>

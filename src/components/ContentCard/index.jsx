@@ -59,7 +59,7 @@ const ContentCard = ({
       content: "",
     },
     validationSchema: Yup.object().shape({
-      content: Yup.string().max(300).required("please insert a new comment"),
+      content: Yup.string().max(300, "max char is 300").required("please insert a new comment"),
     }),
     validateOnChange: false,
     onSubmit: async (values) => {
@@ -145,7 +145,7 @@ const ContentCard = ({
         shadow="dark-lg"
       >
         {/* Card Header */}
-        <Box padding="3" paddingBottom="2" display="flex" alignItems="center">
+        <Box padding="2" paddingBottom="2" display="flex" alignItems="center">
           <Link
             href={
               userSelector.id === userId ? `/myProfile` : `/profile/${userId}`
@@ -172,7 +172,7 @@ const ContentCard = ({
             </Text>
           </Box>
         </Box>
-        <Box paddingX="3" paddingY="10px">
+        <Box paddingX="2" paddingY="10px">
           <Text
             display="inline"
             fontSize="24px"

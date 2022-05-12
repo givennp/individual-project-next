@@ -21,6 +21,9 @@ const MyComments = ({ userId }) => {
       const res = await axiosInstance.get("/comments", {
         params: {
           user_id: userId,
+          _limit: 5,
+          _sortBy: "id",
+          _sortDir: "DESC"
         },
       });
       setUserComments(res.data.result.rows);

@@ -23,6 +23,10 @@ export const userLogin = (values, setSubmitting) => {
       setSubmitting(false);
     } catch (err) {
       console.log(err);
+      dispatch({
+        type: user_types.INVALID_USER,
+        payload: err.response.data.message,
+      });
       setSubmitting(false);
     }
   };
